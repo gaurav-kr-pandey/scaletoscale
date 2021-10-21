@@ -1,0 +1,88 @@
+<head xmlns:th="http://www.w3.org/1999/xhtml">
+	<!--
+	<header class="p-3 bg-dark text-white" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+		<title>ScaleToScale</title>
+		<div class="container">
+			<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+				<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+					<svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+				</a>
+
+				<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+					<li><a href="#" class="nav-link px-2 text-white">Home</a></li>
+					<li><a href="#" class="nav-link px-2 text-white">Features</a></li>
+					<li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+					<li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+					<li><a href="#" class="nav-link px-2 text-white">About</a></li>
+				</ul>
+				sec:authorize="hasRole('SUPER_ADMIN') ,  sec:authorize="isAuthenticated()
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+					<input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+				</form>
+
+				<div class="text-end">
+					<a href="/login" type="button" class="btn btn-outline-light me-2" sec:authorize="!isAuthenticated()">Login</a>
+					<a href="/signin" type="button" class="btn btn-warning" sec:authorize="!isAuthenticated()">Sign-up</a>
+					<a href="javascript: document.logoutForm.submit()" role="menuitem" type="button" class="btn btn-danger" sec:authorize="isAuthenticated()"> Logout</a>
+					<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true" sec:authorize="isAuthenticated()">
+						<input hidden type="submit" value="Logout"/>
+					</form>
+				</div>
+			</div>
+		</div>
+	</header>
+	-->
+	<header class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+		<link th:href="@{/css/styles.css}" rel="stylesheet" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+		<title>ScaleToScale</title>
+		<div class="container px-5">
+			<a class="navbar-brand" href="index.html">ScaleToScale</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+					<li class="nav-item"><a class="nav-link" href="/pricing">Pricing</a></li>
+					<li class="nav-item"><a class="nav-link" href="/faq">FAQ</a></li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+							<li><a class="dropdown-item" href="/blog-home">Blog Home</a></li>
+							<li><a class="dropdown-item" href="/blog-post">Blog Post</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+							<li><a class="dropdown-item" href="portfolio-overview.html">Portfolio Overview</a></li>
+							<li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="text-end">
+				<a href="/login" type="button" class="btn btn-outline-light me-2" sec:authorize="!isAuthenticated()">Login</a>
+				<a href="/signin" type="button" class="btn btn-warning" sec:authorize="!isAuthenticated()">Sign-up</a>
+				<a href="javascript: document.logoutForm.submit()" role="menuitem" type="button" class="btn btn-danger" sec:authorize="isAuthenticated()"> Logout</a>
+				<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true" sec:authorize="isAuthenticated()">
+					<input hidden type="submit" value="Logout"/>
+				</form>
+			</div>
+		</div>
+	</header>
+</head>
+
+
