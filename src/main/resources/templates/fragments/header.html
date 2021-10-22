@@ -1,4 +1,4 @@
-<head xmlns:th="http://www.w3.org/1999/xhtml">
+<head xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 	<!--
 	<header class="p-3 bg-dark text-white" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 		<meta charset="utf-8">
@@ -74,9 +74,9 @@
 				</ul>
 			</div>
 			<div class="text-end">
-				<a href="/login" type="button" class="btn btn-outline-light me-2" sec:authorize="!isAuthenticated()">Login</a>
-				<a href="/signin" type="button" class="btn btn-warning" sec:authorize="!isAuthenticated()">Sign-up</a>
-				<a href="javascript: document.logoutForm.submit()" role="menuitem" type="button" class="btn btn-danger" sec:authorize="isAuthenticated()"> Logout</a>
+				<a href="/login" type="button" class="btn btn-outline-light me-2 btn-sm" sec:authorize="!isAuthenticated()">Login</a>
+				<a href="/signin" type="button" class="btn btn-warning btn-sm" sec:authorize="!isAuthenticated()">Sign-up</a>
+				<a href="javascript: document.logoutForm.submit()" role="menuitem" type="button" class="btn btn-danger btn-sm" sec:authorize="isAuthenticated()"> Logout</a>
 				<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true" sec:authorize="isAuthenticated()">
 					<input hidden type="submit" value="Logout"/>
 				</form>

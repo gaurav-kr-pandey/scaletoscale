@@ -6,7 +6,7 @@ import java.util.Set;
 
 
 /**
- * The persistent class for the courses database table.
+ * The persistent class for the Courses database table.
  * 
  */
 @Entity
@@ -29,23 +29,23 @@ public class Course implements Serializable {
 	@Column(nullable=false, length=255)
 	private String thumbnail;
 
+	//bi-directional many-to-many association to Blog
+	@ManyToMany
+	@JoinTable(
+			name="Courses_blogs"
+			, joinColumns={
+			@JoinColumn(name="Courses_id", nullable=false)
+	}
+			, inverseJoinColumns={
+			@JoinColumn(name="blogs_id", nullable=false)
+	}
+	)
+	private Set<Blog> blogs;
+
 	//bi-directional many-to-one association to UserProfile
 	@ManyToOne
 	@JoinColumn(name="user_profile_id")
 	private UserProfile userProfile;
-
-	//bi-directional many-to-many association to Blog
-	@ManyToMany
-	@JoinTable(
-		name="courses_blogs"
-		, joinColumns={
-			@JoinColumn(name="courses_id", nullable=false)
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="blogs_id", nullable=false)
-			}
-		)
-	private Set<Blog> blogs;
 
 	public Course() {
 	}
@@ -82,20 +82,20 @@ public class Course implements Serializable {
 		this.thumbnail = thumbnail;
 	}
 
-	public UserProfile getUserProfile() {
-		return this.userProfile;
-	}
-
-	public void setUserProfile(UserProfile userProfile) {
-		this.userProfile = userProfile;
-	}
-
 	public Set<Blog> getBlogs() {
 		return this.blogs;
 	}
 
 	public void setBlogs(Set<Blog> blogs) {
 		this.blogs = blogs;
+	}
+
+	public UserProfile getUserProfile() {
+		return this.userProfile;
+	}
+
+	public void setUserProfile(UserProfile userProfile) {
+		this.userProfile = userProfile;
 	}
 
 }

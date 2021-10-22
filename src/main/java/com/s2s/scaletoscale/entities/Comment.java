@@ -25,13 +25,15 @@ public class Comment implements Serializable {
 	@Column(name="parent_id")
 	private int parentId;
 
-	@Column(name="user_profile_id", nullable=false)
-	private int userProfileId;
-
 	//bi-directional many-to-one association to Blog
 	@ManyToOne
 	@JoinColumn(name="blogs_id", nullable=false)
 	private Blog blog;
+
+	//bi-directional many-to-one association to UserProfile
+	@ManyToOne
+	@JoinColumn(name="user_profile_id", nullable=false)
+	private UserProfile userProfile;
 
 	public Comment() {
 	}
@@ -60,20 +62,20 @@ public class Comment implements Serializable {
 		this.parentId = parentId;
 	}
 
-	public int getUserProfileId() {
-		return this.userProfileId;
-	}
-
-	public void setUserProfileId(int userProfileId) {
-		this.userProfileId = userProfileId;
-	}
-
 	public Blog getBlog() {
 		return this.blog;
 	}
 
 	public void setBlog(Blog blog) {
 		this.blog = blog;
+	}
+
+	public UserProfile getUserProfile() {
+		return this.userProfile;
+	}
+
+	public void setUserProfile(UserProfile userProfile) {
+		this.userProfile = userProfile;
 	}
 
 }

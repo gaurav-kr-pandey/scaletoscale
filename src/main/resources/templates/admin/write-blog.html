@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header"></head>
+
+<body class="d-flex flex-column" >
+<br>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <ul class="list-group">
+          <li class="list-group-item active" aria-current="true">An active item</li>
+          <li class="list-group-item">A second item</li>
+          <li class="list-group-item">A third item</li>
+          <li class="list-group-item">A fourth item</li>
+          <li class="list-group-item">And a fifth one</li>
+        </ul>
+      </div>
+      <div class="col-9">
+        <form th:action="@{/blog/save-blog}" th:object="${blog}" method="post" >
+        <div class="mb-3">
+          <label for="title" class="form-label">Blog Title</label>
+          <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="Blog Title">
+        </div>
+        <select class="form-select" aria-label="Tags" multiple>
+          <option value="SDF">SDF</option>
+          <option value="LLD">LLD</option>
+          <option value="HLD">HLD</option>
+        </select>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea th:field="*{description}" class="form-control" id="description" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="body" class="form-label">Body</label>
+          <textarea th:field="*{body}" class="form-control" id="body" rows="8"></textarea>
+        </div>
+          <br>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3" onclick='this.form.target="_self"; this.form.action="/blog/save-blog";'>Submit</button>
+            <button type="submit" class="btn btn-primary mb-3" onclick='this.form.target="_blank"; this.form.action="/blog/preview-blog"'>Preview</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

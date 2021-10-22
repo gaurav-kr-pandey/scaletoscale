@@ -20,35 +20,42 @@ public class Blog implements Serializable {
 	@Column(unique=true, nullable=false)
 	private int id;
 
-	@Column(nullable=false)
 	@Lob
-	private Object description;
+	@Column(nullable=false)
+	private String body;
 
-	@Column(length=255)
-	private String media;
-
-	@Column(length=1)
-	private String tag;
+	@Column(nullable=false, length=5000)
+	private String description;
 
 	@Column(nullable=false, length=255)
 	private String title;
+
+	private byte visibility;
 
 	//bi-directional many-to-one association to UserProfile
 	@ManyToOne
 	@JoinColumn(name="user_profile_id")
 	private UserProfile userProfile;
 
-	//bi-directional many-to-many association to Cours
-	@ManyToMany(mappedBy="blogs")
-	private Set<Course> courses;
-
 	//bi-directional many-to-one association to Comment
 	@OneToMany(mappedBy="blog")
 	private Set<Comment> comments;
 
+	//bi-directional many-to-many association to Cours
+	@ManyToMany(mappedBy="blogs")
+	private Set<Course> courses;
+
+	//bi-directional many-to-one association to Media
+	@OneToMany(mappedBy="blog")
+	private Set<Media> medias;
+
 	//bi-directional many-to-one association to UserLike
 	@OneToMany(mappedBy="blog")
 	private Set<UserLike> userLikes;
+
+	//bi-directional many-to-one association to Tag
+	@OneToMany(mappedBy="blog")
+	private Set<Tag> tags;
 
 	public Blog() {
 	}
@@ -61,28 +68,20 @@ public class Blog implements Serializable {
 		this.id = id;
 	}
 
-	public Object getDescription() {
+	public String getBody() {
+		return this.body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public String getDescription() {
 		return this.description;
 	}
 
-	public void setDescription(Object description) {
+	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getMedia() {
-		return this.media;
-	}
-
-	public void setMedia(String media) {
-		this.media = media;
-	}
-
-	public String getTag() {
-		return this.tag;
-	}
-
-	public void setTag(String tag) {
-		this.tag = tag;
 	}
 
 	public String getTitle() {
@@ -93,20 +92,20 @@ public class Blog implements Serializable {
 		this.title = title;
 	}
 
+	public byte getVisibility() {
+		return this.visibility;
+	}
+
+	public void setVisibility(byte visibility) {
+		this.visibility = visibility;
+	}
+
 	public UserProfile getUserProfile() {
 		return this.userProfile;
 	}
 
 	public void setUserProfile(UserProfile userProfile) {
 		this.userProfile = userProfile;
-	}
-
-	public Set<Course> getCourses() {
-		return this.courses;
-	}
-
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
 	}
 
 	public Set<Comment> getComments() {
@@ -131,6 +130,36 @@ public class Blog implements Serializable {
 		return comment;
 	}
 
+	public Set<Course> getCourses() {
+		return this.courses;
+	}
+
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
+	}
+
+	public Set<Media> getMedias() {
+		return this.medias;
+	}
+
+	public void setMedias(Set<Media> medias) {
+		this.medias = medias;
+	}
+
+	public Media addMedia(Media media) {
+		getMedias().add(media);
+		media.setBlog(this);
+
+		return media;
+	}
+
+	public Media removeMedia(Media media) {
+		getMedias().remove(media);
+		media.setBlog(null);
+
+		return media;
+	}
+
 	public Set<UserLike> getUserLikes() {
 		return this.userLikes;
 	}
@@ -151,6 +180,28 @@ public class Blog implements Serializable {
 		userLike.setBlog(null);
 
 		return userLike;
+	}
+
+	public Set<Tag> getTags() {
+		return this.tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public Tag addTag(Tag tag) {
+		getTags().add(tag);
+		tag.setBlog(this);
+
+		return tag;
+	}
+
+	public Tag removeTag(Tag tag) {
+		getTags().remove(tag);
+		tag.setBlog(null);
+
+		return tag;
 	}
 
 }
