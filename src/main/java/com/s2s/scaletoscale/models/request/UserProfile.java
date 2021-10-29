@@ -1,6 +1,8 @@
 package com.s2s.scaletoscale.models.request;
 
 
+import javax.persistence.Column;
+
 public class UserProfile {
 
 	private int id;
@@ -60,4 +62,6 @@ public class UserProfile {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+
 }

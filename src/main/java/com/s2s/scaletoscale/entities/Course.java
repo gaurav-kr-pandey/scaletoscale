@@ -2,6 +2,7 @@ package com.s2s.scaletoscale.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -16,7 +17,7 @@ public class Course implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
 	private int id;
 
@@ -30,7 +31,7 @@ public class Course implements Serializable {
 	private String thumbnail;
 
 	//bi-directional many-to-many association to Blog
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name="Courses_blogs"
 			, joinColumns={
@@ -40,7 +41,7 @@ public class Course implements Serializable {
 			@JoinColumn(name="blogs_id", nullable=false)
 	}
 	)
-	private Set<Blog> blogs;
+	private List<Blog> blogs;
 
 	//bi-directional many-to-one association to UserProfile
 	@ManyToOne
@@ -82,11 +83,11 @@ public class Course implements Serializable {
 		this.thumbnail = thumbnail;
 	}
 
-	public Set<Blog> getBlogs() {
+	public List<Blog> getBlogs() {
 		return this.blogs;
 	}
 
-	public void setBlogs(Set<Blog> blogs) {
+	public void setBlogs(List<Blog> blogs) {
 		this.blogs = blogs;
 	}
 

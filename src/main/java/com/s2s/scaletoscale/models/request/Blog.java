@@ -8,9 +8,11 @@ public class Blog {
 	}
 
 	private int id;
+	private String body;
 	private String description;
 	private String title;
-	private String body;
+	private String media_url;
+	private long post_time;
 	private byte visibility;
 
 	public Blog() {
@@ -54,5 +56,21 @@ public class Blog {
 
 	public void setVisibility(byte visibility) {
 		this.visibility = visibility;
+	}
+
+	public String getMedia_url() {
+		return media_url;
+	}
+
+	public void setMedia_url(String media_url) {
+		this.media_url = media_url;
+	}
+
+	public long getPost_time() {
+		return post_time;
+	}
+
+	public void setPost_time(long post_time) {
+		this.post_time = post_time;
 	}
 }

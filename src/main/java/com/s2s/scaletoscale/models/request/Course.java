@@ -1,11 +1,14 @@
 package com.s2s.scaletoscale.models.request;
 
 
+import java.util.List;
+
 public class Course {
 	private int id;
 	private String description;
 	private String name;
 	private String thumbnail;
+	private List<com.s2s.scaletoscale.models.request.Blog> blogs;
 
 	public Course() {
 	}
@@ -42,4 +45,11 @@ public class Course {
 		this.thumbnail = thumbnail;
 	}
 
+	public List<Blog> getBlogs() {
+		return blogs;
+	}
+
+	public void setBlogs(List<Blog> blogs) {
+		this.blogs = blogs;
+	}
 }

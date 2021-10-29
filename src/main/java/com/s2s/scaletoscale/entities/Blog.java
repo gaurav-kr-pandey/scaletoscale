@@ -2,6 +2,7 @@ package com.s2s.scaletoscale.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -16,7 +17,7 @@ public class Blog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
 	private int id;
 
@@ -30,6 +31,13 @@ public class Blog implements Serializable {
 	@Column(nullable=false, length=255)
 	private String title;
 
+	@Column(nullable=true, length=500)
+	private String media_url;
+
+	@Column
+	private long post_time;
+
+	@Column
 	private byte visibility;
 
 	//bi-directional many-to-one association to UserProfile
@@ -41,9 +49,9 @@ public class Blog implements Serializable {
 	@OneToMany(mappedBy="blog")
 	private Set<Comment> comments;
 
-	//bi-directional many-to-many association to Cours
+	//bi-directional many-to-many association to Course
 	@ManyToMany(mappedBy="blogs")
-	private Set<Course> courses;
+	private List<Course> courses;
 
 	//bi-directional many-to-one association to Media
 	@OneToMany(mappedBy="blog")
@@ -126,15 +134,14 @@ public class Blog implements Serializable {
 	public Comment removeComment(Comment comment) {
 		getComments().remove(comment);
 		comment.setBlog(null);
-
 		return comment;
 	}
 
-	public Set<Course> getCourses() {
-		return this.courses;
+	public List<Course> getCourses() {
+		return courses;
 	}
 
-	public void setCourses(Set<Course> courses) {
+	public void setCourses(List<Course> courses) {
 		this.courses = courses;
 	}
 
@@ -204,4 +211,19 @@ public class Blog implements Serializable {
 		return tag;
 	}
 
+	public String getMedia_url() {
+		return media_url;
+	}
+
+	public void setMedia_url(String media_url) {
+		this.media_url = media_url;
+	}
+
+	public long getPost_time() {
+		return post_time;
+	}
+
+	public void setPost_time(long post_time) {
+		this.post_time = post_time;
+	}
 }

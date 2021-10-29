@@ -1,26 +1,22 @@
 package com.s2s.scaletoscale.models.response;
 
 
-public class Blog {
 
+public class Blog {
 	public enum Tag{
 		DATABASE, SYSTEM_DESIGN, SYSTEM_DESIGN_FUNDAMENTAL, DATA_STRUCTURE
 	}
+
 	private int id;
+	private String body;
 	private String description;
-	private String media;
-	private Tag tag;
 	private String title;
+	private String media_url;
+	private long post_time;
+	private byte visibility;
+	private UserProfile userProfile;
 
 	public Blog() {
-	}
-
-	public Blog(int id, String description, String media, Tag tag, String title) {
-		this.id = id;
-		this.description = description;
-		this.media = media;
-		this.tag = tag;
-		this.title = title;
 	}
 
 	public int getId() {
@@ -39,22 +35,6 @@ public class Blog {
 		this.description = description;
 	}
 
-	public String getMedia() {
-		return this.media;
-	}
-
-	public void setMedia(String media) {
-		this.media = media;
-	}
-
-	public Tag getTag() {
-		return this.tag;
-	}
-
-	public void setTag(Tag tag) {
-		this.tag = tag;
-	}
-
 	public String getTitle() {
 		return this.title;
 	}
@@ -63,4 +43,43 @@ public class Blog {
 		this.title = title;
 	}
 
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public byte getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(byte visibility) {
+		this.visibility = visibility;
+	}
+
+	public String getMedia_url() {
+		return media_url;
+	}
+
+	public void setMedia_url(String media_url) {
+		this.media_url = media_url;
+	}
+
+	public long getPost_time() {
+		return post_time;
+	}
+
+	public void setPost_time(long post_time) {
+		this.post_time = post_time;
+	}
+
+	public UserProfile getUserProfile() {
+		return userProfile;
+	}
+
+	public void setUserProfile(UserProfile userProfile) {
+		this.userProfile = userProfile;
+	}
 }

@@ -10,4 +10,6 @@ class ScaletoscaleApplicationTests {
 	void contextLoads() {
 	}
 
+
+
 }

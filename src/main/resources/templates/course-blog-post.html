@@ -4,45 +4,55 @@
     <body class="d-flex flex-column">
         <main class="flex-shrink-0">
             <!-- Page Content-->
-            <section class="py-5">
-                <div class="container px-5 my-5">
+            <section class="py-2">
+                <div class="container px-2 my-2">
+
                     <div class="row gx-5">
                         <div class="col-lg-3">
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
-                                <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+                                <img class="img-fluid rounded-circle" height="50" width="50" src="https://drive.google.com/uc?id=1AHs6MPC4bbJuad7IV1f2pNf29r5VaS8k" alt="..." />
                                 <div class="ms-3">
-                                    <div class="fw-bold">Valerie Luna</div>
-                                    <div class="text-muted">News, Business</div>
+                                    <div class="fw-bold" th:text="${blog.userProfile.firstName}+' '+${blog.userProfile.lastName}">Valerie Luna</div>
+                                    <div class="text-muted">SDE-II, Paypal</div>
                                 </div>
                             </div>
+<!--
                             <br>
                             <ul class="list-group">
-                                <li class="list-group-item active" aria-current="true">An active item</li>
-                                <li class="list-group-item">A second item</li>
-                                <li class="list-group-item">A third item</li>
-                                <li class="list-group-item">A fourth item</li>
-                                <li class="list-group-item">And a fifth one</li>
+                                <li th:class="'list-group-item '+${blog.id==1 ? 'active' : ''}"><a th:href="@{/blog/}+${blog.id}" th:text="${blog.title}" th:class="${blog.id==1 ? 'link-light' : 'link-dark'}"></a></li>
+                                <li th:class="'list-group-item '+${blog.id==2 ? 'active' : ''}"><a th:href="@{/blog/}+${blog.id}" th:text="${blog.title}" th:class="${blog.id==2 ? 'link-light' : 'link-dark'}"></a></li>
+                                th:class="'list-group-item list-group-item-action py-3 lh-tight '+${blog.id==2 ? 'active' : ''}"><a th:href="@{/blog/}+${blog.id}" th:text="${blog.title}" th:class="${blog.id==2 ? 'link-light' : 'link-dark'}"
                             </ul>
+-->
+                            <a href="#" class="d-flex align-items-start flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+                              <!--  <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg> -->
+                                <strong class="fs-5 mt-5" >System Design Fundamentals</strong>
+                            </a>
+                            <div class="list-group list-group-flush border-bottom scrollarea">
+                                <a th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:each="b : ${blogs}"
+                                   th:class="'list-group-item list-group-item-action py-3 lh-tight '+${b.id==blog.id ? 'active' : ''}" aria-current="true">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span class="fs-5 fw-semibold" th:text="${b.title}"></span>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-lg-9">
+                        <div class="col-lg-9 mt-5">
                             <!-- Post content-->
                             <article>
                                 <!-- Post header-->
                                 <header class="mb-4">
                                     <!-- Post title-->
-                                    <h1 class="fw-bolder mb-1">High Scalability</h1>
+                                    <h1 class="fw-bolder mb-1" th:text="${blog.title}"></h1>
                                     <!-- Post meta content-->
-                                    <div class="text-muted fst-italic mb-2">January 1, 2021</div>
+                                    <div class="text-muted fst-italic mb-2" th:text="${#dates.format(new java.util.Date(blog.post_time),'dd-MMM-yyyy')}">January 1, 2021</div>
                                     <!-- Post categories-->
                                     <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
                                     <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
                                 </header>
-                                <!-- Preview image figure-->
-                                <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
-                                <!-- Post content-->
-                                <div>
-                                    [(${variable})]
-                                </div>
+                                <section class="mb-5">
+                                    [(${blog.body})]
+                                </section>
                             </article>
                             <!-- Comments section-->
                             <section>

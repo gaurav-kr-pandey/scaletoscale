@@ -1,10 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header"></head>
+
+<body class="d-flex flex-column" >
+<br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3">
+        <pre>
+          <code>
+&ltfigure class="mb-4"&gt&ltimg class="img-fluid rounded" src="https://drive.google.com/uc?id=FILE_ID" alt="" /&gt&lt/figure&gt
+&lth2 class="fw-bolder mb-4 mt-5"&gt&lt/h2&gt
+&ltp class="fs-5 mb-4"&gt&lt/p&gt
+&lta href="#" class="link-success"&gtSuccess link&lt/a&gt
+&ltpre&gt&ltcode&gt&lt/code&gt&lt/pre&gt
+&ltli&gtNested lists:
+&ltul&gt
+&ltli&gtare unaffected by this style&lt/li&gt
+&ltli&gtwill still show a bullet&lt/li&gt
+&ltli&gtand have appropriate left margin&lt/li&gt
+&lt/ul&gt
+&lt/li&gt
+&ltdiv class="card"&gt
+  &ltdiv class="card-header"&gt
+    Quote
+  &lt/div&gt
+  &ltdiv class="card-body"&gt
+    &ltblockquote class="blockquote mb-0"&gt
+      &ltp&gtA well-known quote, contained in a blockquote element.&lt/p&gt
+      &ltfooter class="blockquote-footer"&gtSomeone famous in &ltcite title="Source Title"&gtSource Title&lt/cite&gt&lt/footer&gt
+    &lt/blockquote&gt
+  &lt/div&gt
+&lt/div&gt
+          </code>
+        </pre>
+    </div>
+    <div class="col-9">
+      <div class="alert alert-success col-xs-offset-1 col-xs-10" th:text="${status}">
+
+      </div>
+      <form th:action="@{/blog/save}" th:object="${blog}" method="post" >
+        <input type="text" th:field="*{id}" th:value="${blog.id}" class="form-control"  id="id"  hidden>
+        <div class="mb-3">
+          <label for="title" class="form-label">Blog Title</label>
+          <input type="text" th:field="*{title}" th:value="${blog.title}" class="form-control" id="title" placeholder="Blog Title">
+        </div>
+        <div class="mb-3">
+          <label for="media_url" class="form-label">Media URL</label>
+          <input type="text" th:field="*{media_url}" th:value="${blog.media_url}" class="form-control" id="media_url" placeholder="Media URL">
+        </div>
+        <select class="form-select" aria-label="Tags" multiple>
+          <option value="System Design Fundamental">System Design Fundamental</option>
+          <option value="System Design">System Design</option>
+          <option value="Best Practices">HLD</option>
+        </select>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea th:field="*{description}" th:value="${blog.description}" class="form-control" id="description" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="body" class="form-label">Body</label>
+          <textarea th:field="*{body}" th:value="${blog.body}" class="form-control" id="body" rows="16"></textarea>
+        </div>
+        <br>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-3" onclick='this.form.target="_self"; this.form.action="/blog/save";'>Submit</button>
+          <button type="submit" class="btn btn-primary mb-3" onclick='this.form.target="_blank"; this.form.action="/blog/preview";'>Preview</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

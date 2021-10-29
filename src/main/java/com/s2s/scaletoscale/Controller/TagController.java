@@ -1,2 +1,4 @@
-package com.s2s.scaletoscale.Controller;public class TagController {
+package com.s2s.scaletoscale.Controller;
+
+public class TagController {
 }
