@@ -10,14 +10,22 @@ spring:
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: <login user to smtp server>
-    password: <login password to smtp server>
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+  #mail:
+    #host: smtp.gmail.com
+    #port: 587
+    #username: scaletoscale@gmail.com
+    #password: khuljaodude9648
+    #properties:
+      #mail:
+        #smtp:
+          #auth: true
+          #starttls:
+            #enable: true
+
+user: scaletoscale@gmail.com
+pass: khuljaodude9648
+domain: http://localhost:8080/
+
+email:
+  format:
+    otp: <!DOCTYPE html> <html> <body><div style="border:2px solid black; border-radius:12px; padding:5px; "> <h1 style="text-align:center;font-family:verdana;">OTP:{{otp}} </h1> <h2 style="text-align:center;">This secret code is valid for 5 minutes and can be used only once.</h2> <div style="text-align:center;"><a style="font-family:sans-serif;font-weight:bold;" href="{{url}}">Verify Email<a></div></body> </html>

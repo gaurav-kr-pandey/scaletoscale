@@ -31,9 +31,6 @@ public class PageNavigationController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Value("${article}")
-    String article;
-
     @GetMapping("/")
     public String home(Model model){
         List<com.s2s.scaletoscale.models.response.Blog> blogList = blogService.getAllBlogs();

@@ -32,11 +32,6 @@ public class BlogServiceImpl implements BlogService {
     private ModelMapper modelMapper;
 
 
-    @PostConstruct
-    void init(){
-        System.out.println(getBlogsByCourseId(1));
-    }
-
     @Override
     public List<Blog> getAllBlogs() {
         List<Blog> blogs = new ArrayList<>();

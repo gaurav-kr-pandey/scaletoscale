@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.Cacheable;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/course")
@@ -45,7 +46,7 @@ public class CourseController {
     public String getCourseChapter(@RequestParam(value = "courseId",required = false) int courseId,@RequestParam(value = "chapterId",required = false) int chapterId,  Model model){
         Course course =  courseService.getCourseById(courseId);
         List<Blog> blogs = course.getBlogs();
-        Blog blog = blogs.stream().filter(blog1 -> blog1.getId()==chapterId).toList().get(0);
+        Blog blog = blogs.stream().filter(blog1 -> blog1.getId()==chapterId).collect(Collectors.toList()).get(0);
         model.addAttribute("course",course);
         model.addAttribute("blogs",blogs);
         model.addAttribute("blog",blog);

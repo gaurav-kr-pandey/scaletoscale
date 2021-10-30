@@ -27,14 +27,6 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostConstruct
-    void init(){
-        Course course = getCourseById(1);
-        System.out.println(course.getName());
-        course.getBlogs().forEach(blog -> {
-            System.out.println(blog.getTitle());
-        });
-    }
 
     @Override
     public List<Course> getCourses() {
