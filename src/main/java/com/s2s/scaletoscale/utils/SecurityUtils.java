@@ -19,9 +19,9 @@ public class SecurityUtils {
 
     public Optional<Authentication> getAuth(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(!(auth instanceof AnonymousAuthenticationToken))
-            return Optional.of(auth);
-        return Optional.empty();
+        if(auth instanceof AnonymousAuthenticationToken)
+            return Optional.empty();
+        return Optional.of(auth);
     }
 
     public boolean isUserLoggedIn(){

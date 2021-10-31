@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header"></head>
+<body th:data-id1="${id1}" th:data-id2="${id2}" th:data-id3="${id3}" th:data-id4="${id4}" onload="f1()" >
+<script th:src="@{/js/signup.js}"></script>
+    <div class="container py-5">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-lg btn-dark" id="btn1" onclick="toggleForm('loginForm','signupForm','btn1','btn2')">Login</button>
+            <button type="button" class="btn btn-lg btn-light" id="btn2" onclick="toggleForm('signupForm','loginForm','btn2','btn1')">Sign up</button>
+        </div>
+        <div class="row">
+            <div class="border border-dark rounded mt-4" id="loginForm">
+                <div class="mx-4 my-4">
+                    <div>
+                        <div th:if="${param.error}">
+                            <div class="alert alert-danger col-xs-offset-1 col-xs-6 d-flex flex-nowrap" align="center">
+                                Invalid username and password.
+                            </div>
+                        </div>
+                        <div th:if="${param.logout}" >
+                            <div class="alert alert-success col-xs-offset-1 col-xs-6 d-flex flex-nowrap" align="center">
+                                You have been logged out.
+                            </div>
+                        </div>
+                    </div>
+                    <form class="row g-3" th:action="@{/authenticate}" method="POST">
+                        <div class="col-2"><h1>Login</h1></div>
+                        <div class="col-sm-4">
+                            <input type="email" name="username" class="form-control" placeholder="username@gmail.com" aria-label="EmaIL">
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-dark">Login</button>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-sm"><a href="#forgotPasswod">Forgot Password</a></div>
+                        <div class="col-sm"><a href="/signup">Signup</a></div>
+                        <div class="col-6"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="border border-dark rounded mt-4" id="signupForm">
+
+                <form class="row g-3 mx-2 my-2" id="signup" th:object="${user}" th:action="@{/signup}" method="POST">
+                    <div class="col-md-12">
+                        <h1 align="center">Sign up</h1>
+                    </div>
+                    <div class="col-md-12">
+                        <div th:if="${msg != null && msg != ''}">
+                            <div class="alert alert-danger col-xs-offset-1 col-xs-10 d-flex flex-nowrap" th:text="${msg}" align="center"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" th:field="*{firstName}" class="form-control" th:value="${user.firstName}" id="firstName">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" th:field="*{lastName}" class="form-control" th:value="${user.lastName}" id="lastName">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" th:field="*{email}" class="form-control" th:value="${user.email}" id="email">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="otp" class="form-label" id="myOtpTimer"></label>
+                        <label for="otp" class="form-label" id="sendOtp">Verify Email : <a class="badge rounded-pill bg-dark" onclick="sendOtp();">Send OTP</a></label>
+                        <input type="text" th:field="*{otp}" class="form-control" th:value="${user.otp}" id="otp">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="text" th:field="*{password}" class="form-control" th:value="${user.password}" id="password">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" th:field="*{confirmPassword}" th:value="${user.confirmPassword}" class="form-control" id="confirmPassword">
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-dark">Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

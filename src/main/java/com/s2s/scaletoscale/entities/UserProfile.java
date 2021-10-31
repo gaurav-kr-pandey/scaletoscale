@@ -32,8 +32,11 @@ public class UserProfile implements Serializable {
 	@Column(nullable=false, length=100)
 	private String password;
 
-	@Column(nullable=false, length=1)
+	@Column(nullable=false, length=100)
 	private String role;
+
+	@Column(name = "is_email_verified",nullable = false)
+	private boolean isEmailVerified;
 
 	//bi-directional many-to-one association to Blog
 	@OneToMany(mappedBy="userProfile")
@@ -216,4 +219,12 @@ public class UserProfile implements Serializable {
 		return comment;
 	}
 
+
+	public boolean isEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setEmailVerified(boolean emailVerified) {
+		isEmailVerified = emailVerified;
+	}
 }

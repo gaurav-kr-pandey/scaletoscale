@@ -1,6 +1,7 @@
 package com.s2s.scaletoscale.models.dto;
 
 public class EmailDTO {
+
     private String to;
     private String subject;
     private String body;

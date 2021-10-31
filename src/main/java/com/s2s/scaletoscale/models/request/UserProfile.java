@@ -1,8 +1,6 @@
 package com.s2s.scaletoscale.models.request;
 
 
-import javax.persistence.Column;
-
 public class UserProfile {
 
 	private int id;
@@ -11,6 +9,9 @@ public class UserProfile {
 	private String lastName;
 	private String password;
 	private String role;
+	private String confirmPassword;
+	private String otp;
+	private boolean isEmailVerified;
 
 	public UserProfile() {
 	}
@@ -31,22 +32,6 @@ public class UserProfile {
 		this.email = email;
 	}
 
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public String getPassword() {
 		return this.password;
 	}
@@ -63,5 +48,42 @@ public class UserProfile {
 		this.role = role;
 	}
 
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
 
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public boolean isEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setEmailVerified(boolean emailVerified) {
+		isEmailVerified = emailVerified;
+	}
 }
