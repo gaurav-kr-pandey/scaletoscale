@@ -22,6 +22,7 @@
                         <!-- Post header-->
                         <header class="mb-4">
                             <!-- Post title-->
+                            <!-- <span class="badge bg-secondary" th:if="${#dates.day(#dates.createNow())} - ${#dates.day(new java.util.Date(blog.post_time))}<30">New</span> -->
                             <h1 class="fw-bolder mb-1" th:text="${blog.title}"></h1>
                             <!-- Post meta content-->
                             <div class="text-muted fst-italic mb-2" th:text="${#dates.format(new java.util.Date(blog.post_time),'dd-MMM-yyyy')}">January 1, 2021</div>

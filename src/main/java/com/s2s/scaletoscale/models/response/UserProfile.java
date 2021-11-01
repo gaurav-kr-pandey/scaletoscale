@@ -9,6 +9,9 @@ public class UserProfile {
 	private String lastName;
 	private String password;
 	private String role;
+	private String confirmPassword;
+	private String otp;
+	private boolean isEmailVerified;
 
 	public UserProfile() {
 	}
@@ -59,5 +62,29 @@ public class UserProfile {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	public boolean getIsEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setIsEmailVerified(boolean emailVerified) {
+		isEmailVerified = emailVerified;
 	}
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<script th:src="@{/js/signup.js}"></script>
+<script>
+function hideTimer() {document.getElementById('myOtpTimer').style.display = "none"; }
+</script>
+    <div class="container py-5">
+        <div class="row">
+            <div class="border border-dark rounded mt-4" id="signupForm">
+
+                <form class="row g-3 mx-2 my-2" id="signup" th:object="${user}" th:action="@{/update/user}" method="POST">
+                    <input type="hidden" th:field="*{id}" class="form-control" th:value="${user.id}" id="id">
+                    <label class="checkbox"><input type="checkbox" th:field="*{isEmailVerified}" th:value="${user.isEmailVerified}" checked="checked" style="opacity:0; position:absolute; left:9999px;"></label>
+                    <div class="col-md-12">
+                        <h1 align="center">Update Profile</h1>
+                    </div>
+                    <div class="col-md-12">
+                        <div th:if="${msg != null && msg != ''}">
+                            <div class="alert alert-danger d-flex align-items-center" role="alert" th:if="!${msgType}">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div th:text="${msg}"></div>
+                            </div>
+                            <div class="alert alert-success d-flex align-items-center" role="alert" th:if="${msgType}">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                                <div th:text="${msg}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" th:field="*{firstName}" class="form-control" th:value="${user.firstName}" id="firstName">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" th:field="*{lastName}" class="form-control" th:value="${user.lastName}" id="lastName">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label" th:if="!${user.isEmailVerified}"><strong>Email</strong><span class="badge bg-danger mx-2">Not Verified</span></label>
+                        <label for="email" class="form-label" th:if="${user.isEmailVerified}"><strong>Email</strong><span class="badge bg-success mx-2">Verified</span></label>
+                        <input type="email" th:field="*{email}" class="form-control" th:value="${user.email}" id="email" th:readonly="${user.isEmailVerified}">
+                    </div>
+                    <div class="col-md-6" th:if="!${user.isEmailVerified}">
+                        <label for="otp" class="form-label" id="myOtpTimer"></label>
+                        <label for="otp" class="form-label" id="sendOtp" >Verify Email : <a class="badge rounded-pill bg-dark" onclick="sendOtp();">Send OTP</a></label>
+                        <input type="text" th:field="*{otp}" class="form-control"  id="otp">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="text" th:field="*{password}" class="form-control" th:value="${user.password}" id="password">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" th:field="*{confirmPassword}" th:value="${user.password}" class="form-control" id="confirmPassword">
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-dark">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

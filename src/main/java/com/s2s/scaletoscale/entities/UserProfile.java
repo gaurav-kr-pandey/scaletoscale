@@ -219,12 +219,11 @@ public class UserProfile implements Serializable {
 		return comment;
 	}
 
-
-	public boolean isEmailVerified() {
+	public boolean getIsEmailVerified() {
 		return isEmailVerified;
 	}
 
-	public void setEmailVerified(boolean emailVerified) {
+	public void setIsEmailVerified(boolean emailVerified) {
 		isEmailVerified = emailVerified;
 	}
 }

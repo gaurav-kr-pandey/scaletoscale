@@ -61,4 +61,7 @@ public class UserProfileDetails implements UserDetails {
 		return true;
 	}
 
+	public UserProfile getUserProfile() {
+		return userProfile;
+	}
 }

@@ -46,7 +46,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         if(userProfileRepository.findByEmail(username)!=null)
             throw new UsernameNotAvailableException("Username/Email already taken");
         if(StringUtils.hasText(otp) && otpService.isCorrectOtp(username,otp)){
-            userProfileRequest.setEmailVerified(true);
+            userProfileRequest.setIsEmailVerified(true);
         }
         if(!StringUtils.hasText(role)){
             userProfileRequest.setRole("ROLE_STUDENT");
@@ -58,5 +58,20 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public UserProfile getUserProfileById(int id) {
         return modelMapper.map(userProfileRepository.getById(id),UserProfile.class);
+    }
+
+    @Override
+    public UserProfile updateUserProfile(com.s2s.scaletoscale.models.request.UserProfile userProfileRequest) throws ExecutionException {
+        String username = userProfileRequest.getEmail();
+        String otp = userProfileRequest.getOtp();
+        String role = userProfileRequest.getRole();
+        if(StringUtils.hasText(otp) && otpService.isCorrectOtp(username,otp)){
+            userProfileRequest.setIsEmailVerified(true);
+        }
+        if(!StringUtils.hasText(role)){
+            userProfileRequest.setRole("ROLE_STUDENT");
+        }
+        com.s2s.scaletoscale.entities.UserProfile userProfileEntity = userProfileRepository.save(modelMapper.map(userProfileRequest, com.s2s.scaletoscale.entities.UserProfile.class));
+        return modelMapper.map(userProfileEntity,UserProfile.class);
     }
 }

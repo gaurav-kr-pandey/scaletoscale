@@ -4,6 +4,7 @@ import com.s2s.scaletoscale.exception.UsernameNotAvailableException;
 import com.s2s.scaletoscale.models.request.UserProfile;
 import com.s2s.scaletoscale.service.UserProfileService;
 import com.s2s.scaletoscale.utils.SecurityUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,8 @@ import java.util.Map;
 @Controller
 public class UserProfileController {
 
+	@Autowired
+	private ModelMapper modelMapper;
 	private static final Map<String,String> SIGNUP_ATTRIBUTE = new HashMap<>();
 	private static final Map<String,String> LOGIN_ATTRIBUTE = new HashMap<>();
 
@@ -70,6 +73,27 @@ public class UserProfileController {
 		return "signup";
 	}
 
+	@PostMapping("/update/user")
+	public String updateUser(@ModelAttribute("user") UserProfile user,Model model) {
+		try {
+			if(!user.getPassword().equals(user.getConfirmPassword())){
+				model.addAttribute("user",user);
+				model.addAttribute("msgType",false);
+				SIGNUP_ATTRIBUTE.put("msg","Password and Confirm Password is different.");
+			}else {
+				userProfileService.updateUserProfile(user);
+				model.addAttribute("msgType",true);
+				SIGNUP_ATTRIBUTE.put("msg","Profile Updated. You can login now.");
+			}
+		}catch (Exception e){
+			model.addAttribute("user",user);
+			SIGNUP_ATTRIBUTE.put("msg","Something went wrong, try again");
+			System.out.println(e);
+		}
+		model.addAllAttributes(SIGNUP_ATTRIBUTE);
+		return "update-user-profile";
+	}
+
 	@GetMapping("/login")
 	public String login(@ModelAttribute("user") UserProfile user, Model model) {
 		if(securityUtils.isUserLoggedIn() )
@@ -78,16 +102,15 @@ public class UserProfileController {
 		return "signup";
 	}
 
-	/*
 
 	@GetMapping("/update/user")
 	public String updateProfilePage(@ModelAttribute("user") UserProfile user,Model model) {
-		user = getUser();
-		model.addAttribute("user", user);
+		com.s2s.scaletoscale.models.response.UserProfile userProfile = userProfileService.getUserProfile(securityUtils.getLoggedInUsername());
+		model.addAttribute("user", userProfile);
 		return "update-user-profile";
 	}
 
-
+/*
 	@PostMapping("/update/user/profile")
 	public String updateUserProfile(@ModelAttribute("user") UserProfile user,Model model) {
 						

@@ -11,4 +11,5 @@ public interface UserProfileService {
     List<UserProfile> getAllUserProfile();
     UserProfile saveUserProfile(com.s2s.scaletoscale.models.request.UserProfile userProfile) throws UsernameNotAvailableException, ExecutionException;
     UserProfile getUserProfileById(int id);
+    UserProfile updateUserProfile(com.s2s.scaletoscale.models.request.UserProfile user) throws ExecutionException;
 }
