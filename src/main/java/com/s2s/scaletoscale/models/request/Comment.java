@@ -6,7 +6,8 @@ public class Comment {
 	private int id;
 	private String comments;
 	private int parentId;
-	private int userProfileId;
+	private String username;
+	private int blogId;
 
 	public Comment() {
 	}
@@ -35,12 +36,19 @@ public class Comment {
 		this.parentId = parentId;
 	}
 
-	public int getUserProfileId() {
-		return this.userProfileId;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserProfileId(int userProfileId) {
-		this.userProfileId = userProfileId;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
+	public int getBlogId() {
+		return blogId;
+	}
+
+	public void setBlogId(int blogId) {
+		this.blogId = blogId;
+	}
 }

@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 public class CourseController {
 
     @Autowired
+    private BlogService blogService;
+
+    @Autowired
     private CourseService courseService;
 
     @Autowired
@@ -38,8 +41,21 @@ public class CourseController {
     @PostMapping("/")
     public String saveCourse(@ModelAttribute("course") com.s2s.scaletoscale.models.request.Course course, Model model){
         Course courseResponse = courseService.saveCourse(course);
-        model.addAttribute("course",course);
-        return "course-blog-post";
+        List<Blog> blogs = blogService.getAllBlogs();
+        blogs.removeAll(courseResponse.getBlogs());
+        model.addAttribute("course",courseResponse);
+        model.addAttribute("blogs",blogs);
+        return "create-course";
+    }
+
+    @GetMapping("/edit/{courseId}")
+    public String editCourse(@PathVariable("courseId") int id, @ModelAttribute("course") com.s2s.scaletoscale.models.request.Course course, Model model){
+        Course courseResponse = courseService.getCourseById(id);
+        List<Blog> blogs = blogService.getAllBlogs();
+        blogs.removeAll(courseResponse.getBlogs());
+        model.addAttribute("course",courseResponse);
+        model.addAttribute("blogs",blogs);
+        return "create-course";
     }
 
     @GetMapping("/chapter")
@@ -51,6 +67,32 @@ public class CourseController {
         model.addAttribute("blogs",blogs);
         model.addAttribute("blog",blog);
         return "course-blog-post";
+    }
+
+    @GetMapping("/create")
+    public String createCourse(@ModelAttribute("course") com.s2s.scaletoscale.models.request.Course course, Model model){
+        model.addAttribute("blogs",blogService.getAllBlogs());
+        return "create-course";
+    }
+
+    @GetMapping("/add")
+    public String addChapter(@RequestParam(value = "courseId",required = false) int courseId,@RequestParam(value = "blogId",required = false) int blogId,  Model model){
+        Course courseResponse = courseService.addChapter(courseId,blogId);
+        List<Blog> blogs = blogService.getAllBlogs();
+        blogs.removeAll(courseResponse.getBlogs());
+        model.addAttribute("course",courseResponse);
+        model.addAttribute("blogs",blogs);
+        return "create-course";
+    }
+
+    @GetMapping("/remove")
+    public String removeChapter(@RequestParam(value = "courseId",required = false) int courseId,@RequestParam(value = "blogId",required = false) int blogId,  Model model){
+        Course courseResponse = courseService.removeChapter(courseId,blogId);
+        List<Blog> blogs = blogService.getAllBlogs();
+        blogs.removeAll(courseResponse.getBlogs());
+        model.addAttribute("course",courseResponse);
+        model.addAttribute("blogs",blogs);
+        return "create-course";
     }
 
 }

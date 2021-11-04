@@ -99,9 +99,11 @@ public class PageNavigationController {
     public String portfolioItem(Model model){
         return "portfolio-item";
     }
-
+/*
     @GetMapping("/error")
     public String error(Model model){
         return "error";
     }
+    
+ */
 }

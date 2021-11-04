@@ -11,4 +11,6 @@ public interface CourseService {
     Course getCourseById(int id);
     void deleteCourseById(int id);
     Course saveCourse(com.s2s.scaletoscale.models.request.Course course);
+    Course addChapter(int courseId, int blogId);
+    Course removeChapter(int courseId, int blogId);
 }

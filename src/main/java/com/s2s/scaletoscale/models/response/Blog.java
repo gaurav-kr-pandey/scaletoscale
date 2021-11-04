@@ -1,6 +1,7 @@
 package com.s2s.scaletoscale.models.response;
 
 
+import java.util.List;
 
 public class Blog {
 	public enum Tag{
@@ -15,7 +16,7 @@ public class Blog {
 	private long post_time;
 	private byte visibility;
 	private UserProfile userProfile;
-
+	private List<Course> courses;
 	public Blog() {
 	}
 
@@ -81,5 +82,13 @@ public class Blog {
 
 	public void setUserProfile(UserProfile userProfile) {
 		this.userProfile = userProfile;
+	}
+
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
 	}
 }

@@ -35,7 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	//Authorization
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
+
+		http.headers().frameOptions().disable().
+				and().authorizeRequests()
 		.antMatchers("/student/**").hasAnyRole(SecurityConstants.ROLE.STUDENT.name(), SecurityConstants.ROLE.ADMIN.name(), SecurityConstants.ROLE.PAID_STUDENT.name())
 		.antMatchers("/student-paid/**").hasAnyRole( SecurityConstants.ROLE.ADMIN.name(), SecurityConstants.ROLE.PAID_STUDENT.name())
 		.antMatchers("/admin/**").hasRole(SecurityConstants.ROLE.ADMIN.name())

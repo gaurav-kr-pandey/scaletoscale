@@ -26,7 +26,7 @@
 -->
                             <a href="#" class="d-flex align-items-start flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
                               <!--  <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg> -->
-                                <strong class="fs-5 mt-5" >System Design Fundamentals</strong>
+                                <strong class="fs-5 mt-5" th:text="${course.name}"></strong>
                             </a>
                             <div class="list-group list-group-flush border-bottom scrollarea">
                                 <a th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:each="b : ${blogs}"

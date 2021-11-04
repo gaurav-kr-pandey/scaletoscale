@@ -7,6 +7,8 @@ public class Comment {
 	private String comments;
 	private int parentId;
 	private int userProfileId;
+	private UserProfile userProfile;
+	private Blog blog;
 
 	public Comment() {
 	}
@@ -43,4 +45,19 @@ public class Comment {
 		this.userProfileId = userProfileId;
 	}
 
+	public UserProfile getUserProfile() {
+		return userProfile;
+	}
+
+	public void setUserProfile(UserProfile userProfile) {
+		this.userProfile = userProfile;
+	}
+
+	public Blog getBlog() {
+		return blog;
+	}
+
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
 }

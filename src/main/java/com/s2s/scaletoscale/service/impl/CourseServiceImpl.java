@@ -1,6 +1,6 @@
 package com.s2s.scaletoscale.service.impl;
 
-import com.s2s.scaletoscale.entities.Blog;
+import com.s2s.scaletoscale.models.response.Blog;
 import com.s2s.scaletoscale.models.response.Course;
 import com.s2s.scaletoscale.repository.CourseRepository;
 import com.s2s.scaletoscale.service.BlogService;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -52,5 +53,21 @@ public class CourseServiceImpl implements CourseService {
     public Course saveCourse(com.s2s.scaletoscale.models.request.Course course) {
         com.s2s.scaletoscale.entities.Course course1 = courseRepository.save(modelMapper.map(course, com.s2s.scaletoscale.entities.Course.class));
         return modelMapper.map(course1,Course.class);
+    }
+
+    @Override
+    public Course addChapter(int courseId, int blogId) {
+        Blog blog = blogService.getBlog(blogId).get();
+        com.s2s.scaletoscale.entities.Course course = courseRepository.getById(courseId);
+        course.getBlogs().add(modelMapper.map(blog, com.s2s.scaletoscale.entities.Blog.class));
+        return modelMapper.map(courseRepository.save(course),Course.class);
+    }
+
+    @Override
+    public Course removeChapter(int courseId, int blogId) {
+        com.s2s.scaletoscale.entities.Course course = courseRepository.getById(courseId);
+        List<com.s2s.scaletoscale.entities.Blog> blogList = course.getBlogs().stream().filter(blog1 -> blog1.getId()==blogId).collect(Collectors.toList());
+        course.getBlogs().removeAll(blogList);
+        return modelMapper.map(courseRepository.save(course),Course.class);
     }
 }

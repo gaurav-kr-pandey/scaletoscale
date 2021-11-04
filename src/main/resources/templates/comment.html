@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+  <link th:href="@{/css/styles.css}" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<div>
+  <section>
+    <div class="card bg-light">
+      <div class="card-body">
+        <!-- Comment form-->
+        <div sec:authorize="isAuthenticated()">
+          <form class="mb-4" th:action="@{/comment}" th:object="${comment}" method="POST">
+            <input type="hidden" th:field="*{blogId}" th:value="${blogId}" />
+            <textarea class="form-control" rows="3" th:field="*{comments}" placeholder="Join the discussion and leave a comment!"></textarea>
+            <button type="submit" class="badge bg-dark my-2">Comment</button>
+          </form>
+        </div>
+        <!-- Comment with nested comments-->
+        <div class="d-flex mb-4" th:each="c : ${comments}">
+          <!-- Parent comment-->
+          <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+          <div class="ms-3">
+            <div class="fw-bold" th:text="${c.userProfile.firstName}">Commenter Name</div>
+            <p th:text="${c.comments}">If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.</p>
+            <!-- Child comment 1
+            <div class="d-flex mt-4">
+              <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+              <div class="ms-3">
+                <div class="fw-bold">Commenter Name</div>
+                And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.
+              </div>
+            </div>
+             Child comment 2
+            <div class="d-flex mt-4">
+              <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+              <div class="ms-3">
+                <div class="fw-bold">Commenter Name</div>
+                When you put money directly to a problem, it makes a good headline.
+              </div>
+            </div>
+          </div>
+        </div>
+        Single comment
+        <div class="d-flex">
+          <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+          <div class="ms-3">
+            <div class="fw-bold">Commenter Name</div>
+            When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
+          </div>
+        </div>
+      </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
