@@ -35,7 +35,7 @@ public class CourseController {
         model.addAttribute("course",course);
         model.addAttribute("blogs",blogs);
         model.addAttribute("blog",blogs.get(0));
-        return "course-blog-post";
+        return "user/course-blog-post";
     }
 
     @PostMapping("/")
@@ -45,7 +45,7 @@ public class CourseController {
         blogs.removeAll(courseResponse.getBlogs());
         model.addAttribute("course",courseResponse);
         model.addAttribute("blogs",blogs);
-        return "create-course";
+        return "admin/create-course";
     }
 
     @GetMapping("/edit/{courseId}")
@@ -55,7 +55,7 @@ public class CourseController {
         blogs.removeAll(courseResponse.getBlogs());
         model.addAttribute("course",courseResponse);
         model.addAttribute("blogs",blogs);
-        return "create-course";
+        return "admin/create-course";
     }
 
     @GetMapping("/chapter")
@@ -66,13 +66,13 @@ public class CourseController {
         model.addAttribute("course",course);
         model.addAttribute("blogs",blogs);
         model.addAttribute("blog",blog);
-        return "course-blog-post";
+        return "user/course-blog-post";
     }
 
     @GetMapping("/create")
     public String createCourse(@ModelAttribute("course") com.s2s.scaletoscale.models.request.Course course, Model model){
         model.addAttribute("blogs",blogService.getAllBlogs());
-        return "create-course";
+        return "admin/create-course";
     }
 
     @GetMapping("/add")
@@ -92,7 +92,7 @@ public class CourseController {
         blogs.removeAll(courseResponse.getBlogs());
         model.addAttribute("course",courseResponse);
         model.addAttribute("blogs",blogs);
-        return "create-course";
+        return "admin/create-course";
     }
 
 }

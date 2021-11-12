@@ -35,13 +35,13 @@ public class BlogController {
     @GetMapping("/")
     public String getBlogs(Model theModel){
         theModel.addAttribute("blogs",blogService.getAllBlogs());
-        return "blog-home";
+        return "user/blog-home";
     }
 
     @PostMapping("/preview")
     public String previewBlog(@ModelAttribute Blog blog, Model model){
         model.addAttribute("blog",blog);
-        return "preview-blog";
+        return "admin/preview-blog";
     }
 
     @PostMapping("/save")
@@ -66,7 +66,7 @@ public class BlogController {
             model.addAttribute("status", "Blog does not exists");
             return "list-blog";
         }
-        return "edit-blog";
+        return "admin/edit-blog";
     }
 
     @GetMapping("/{blogId}")
@@ -77,9 +77,9 @@ public class BlogController {
             model.addAttribute("blog", blogResponse);
         } else {
             model.addAttribute("status", "Blog does not exists");
-            return "home";
+            return "user/home";
         }
-        return "blog-post";
+        return "user/blog-post";
     }
 
     @DeleteMapping("/{blogId}")
@@ -93,6 +93,6 @@ public class BlogController {
             model.addAttribute("status","Error during deleting blog.");
             logger.error(e.getMessage());
         }
-        return "list-blog";
+        return "user/list-blog";
     }
 }

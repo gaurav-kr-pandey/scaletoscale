@@ -15,4 +15,6 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
     @Query(value = "SELECT * FROM comments WHERE blogs_id= :blogId AND parent_id= :parentId ORDER BY id DESC", nativeQuery = true)
     List<Comment> getRepliesFromCommentId(int blogId, int parentId);
+
+    void deleteByParentId(int parentId);
 }

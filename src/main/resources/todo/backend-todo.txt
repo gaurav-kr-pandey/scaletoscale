@@ -1,0 +1,9 @@
+1.  Separate the flow of ADMIN, STUDENT, PAID_STUDENT
+2.  Like a blog
+3.  Look for error handlings
+4.  iframe-error page
+5.  Organise template folder by creating sub folders
+6.  Contact
+
+
+

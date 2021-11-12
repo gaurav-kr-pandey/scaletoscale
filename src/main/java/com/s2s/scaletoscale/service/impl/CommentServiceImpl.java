@@ -61,9 +61,20 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getRepliesFromCommentId(int blogId, int commentId) {
-        List<Comment> comments = new ArrayList<>();
-        commentRepository.getRepliesFromCommentId(blogId,commentId).forEach(comment->comments.add(modelMapper.map(comment,Comment.class)));
-        return comments;
+    public void deleteByParentId(int id) {
+        commentRepository.deleteByParentId(id);
     }
+
+    @Override
+    public List<Comment> getRepliesFromCommentId(int blogId, int commentId) {
+        List<Comment> replies = new ArrayList<>();
+        commentRepository.getRepliesFromCommentId(blogId,commentId).forEach(comment->replies.add(modelMapper.map(comment,Comment.class)));
+        return replies;
+    }
+
+    @Override
+    public Comment getCommentById(int id) {
+        return modelMapper.map(commentRepository.getById(id),Comment.class);
+    }
+
 }

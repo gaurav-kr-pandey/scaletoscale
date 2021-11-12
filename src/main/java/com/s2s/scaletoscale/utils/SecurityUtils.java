@@ -41,6 +41,13 @@ public class SecurityUtils {
         return null;
     }
 
+    public int getLoggedInUserId(){
+        if (getLoggedInUser().isPresent())
+            return getLoggedInUser().get().getUserProfile().getId();
+
+        return -1;
+    }
+
     public String getLoggedInUserFirstAndLastName(){
         String name = "";
         if(getLoggedInUser().isPresent()){

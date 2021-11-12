@@ -92,7 +92,7 @@ public class EmailController {
         emailHelper.processEmail(emailDTO);
         model.addAttribute("msg","OTP sent to your email "+ email);
         model.addAllAttributes(SIGNUP_ATTRIBUTE);
-        return "signup";
+        return "user/signup";
     }
 
 }

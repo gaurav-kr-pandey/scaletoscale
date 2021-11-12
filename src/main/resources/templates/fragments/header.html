@@ -3,10 +3,11 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-		<link th:href="@{/css/styles.css}" rel="stylesheet" />
+		<link th:href="@{/css/style.css}" rel="stylesheet" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script th:src="@{/js/bootstrap.min.js}"></script>
 		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+		<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 		<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 			<symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
 				<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -27,21 +28,24 @@
 					<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
 					<li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-					<li class="nav-item"><a class="nav-link" href="/pricing">Pricing</a></li>
+					<!-- <li class="nav-item"><a class="nav-link" href="/pricing">Pricing</a></li> -->
 					<li class="nav-item"><a class="nav-link" href="/faq">FAQ</a></li>
 
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
 						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-							<li><a class="dropdown-item" href="/blog-home">Blog Home</a></li>
-							<li><a class="dropdown-item" href="/blog-post">Blog Post</a></li>
+							<li><a class="dropdown-item" href="/blog-home">Blogs</a></li>
+						<!--	<li><a class="dropdown-item" href="/blog-post">Blog Post</a></li>	-->
 						</ul>
 					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
+					<li class="nav-item dropdown mx-2" sec:authorize="hasRole('ROLE_ADMIN')">
+						<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
 						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-							<li><a class="dropdown-item" href="/portfolio">Portfolio Overview</a></li>
+							<!-- <li><a class="dropdown-item" href="/portfolio">Portfolio Overview</a></li>
 							<li><a class="dropdown-item" href="/portfolio-item">Portfolio Item</a></li>
+							-->
+							<li><a class="dropdown-item" href="/course/create">Create Course</a></li>
+							<li><a class="dropdown-item" href="/write-blog">Write Blog</a></li>
 						</ul>
 					</li>
 					<li>
@@ -55,7 +59,7 @@
 				</ul>
 			</div>
 		</div>
-		<script th:src="@{/js/scripts.js}"></script>
+		<script th:src="@{/js/script.js}"></script>
 	</header>
 </head>
 

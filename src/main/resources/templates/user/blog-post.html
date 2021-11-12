@@ -37,8 +37,8 @@
                         </section>
                     </article>
                     <!-- Comments section-->
-                    <div sec:authorize="!isAuthenticated()"><a href="/login" class="text-dark stretched-link">Login to comment</a></div>
-                    <div class="ratio ratio-21x9" >
+                    <div sec:authorize="!isAuthenticated()"><a href="/login" class="badge bg-dark my-2 mx-1">Login</a> to discuss in the comments.</div>
+                    <div class="ratio ratio-21x9">
                         <iframe th:src="@{/comment}+'?blogId='+${blog.id}" height="700px;"></iframe>
                     </div>
                 </section>

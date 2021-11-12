@@ -1,8 +1,2 @@
-1. blog-list
-2. blog
-3. write-blog
-4. login
-5. sign up
-6. forgot
-7. home-page
-8. portfolio
+1.  Contact
+2.  Email

@@ -37,22 +37,22 @@ public class PageNavigationController {
         List<Course> featuredCourses = courseService.getCourses();
         model.addAttribute("featuredBlogs",blogList);
         model.addAttribute("featuredCourses",featuredCourses.get(0));
-        return "home";
+        return "user/home";
     }
 
     @GetMapping("/about")
     public String about(Model model){
-        return "about";
+        return "user/about";
     }
 
     @GetMapping("/faq")
     public String faq(Model model){
-        return "faq";
+        return "user/faq";
     }
 
     @GetMapping("/blog-post")
     public String blogPost(Model model){
-        return "blog-post";
+        return "user/blog-post";
     }
 
     @GetMapping("/course-blog-post")
@@ -65,24 +65,24 @@ public class PageNavigationController {
             model.addAttribute("status", "Blog does not exists");
             return "home";
         }
-        return "course-blog-post";
+        return "user/course-blog-post";
     }
 
 
 
     @GetMapping("/blog-home")
     public String blogHome(Model model){
-        return "blog-home";
+        return "user/blog-home";
     }
 
     @GetMapping("/contact")
     public String contact(Model model){
-        return "contact";
+        return "user/contact";
     }
 
     @GetMapping("/pricing")
     public String pricing(Model model){
-        return "pricing";
+        return "user/pricing";
     }
 
     @GetMapping("/write-blog")
@@ -92,12 +92,12 @@ public class PageNavigationController {
 
     @GetMapping("/portfolio")
     public String portfolio(Model model){
-        return "portfolio-overview";
+        return "user/portfolio-overview";
     }
 
     @GetMapping("/portfolio-item")
     public String portfolioItem(Model model){
-        return "portfolio-item";
+        return "user/portfolio-item";
     }
 /*
     @GetMapping("/error")
