@@ -31,10 +31,20 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping
-    public String getCommentsByBlogId(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment comment, @RequestParam(value = "blogId", required = true) int blogId, Model model){
+    public String getCommentsByBlogId(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment comment,
+                                      @RequestParam(value = "blogId", required = true) int blogId,
+                                      @RequestParam(value = "offset",defaultValue = "0", required = true) int offset,
+                                      Model model){
+        if(offset<0) offset=0;
         model.addAttribute("isReply",false);
         try {
-            List<Comment> comments = commentService.getCommentsByBlogId(blogId);
+            List<Comment> comments = commentService.getCommentsByBlogId(blogId,offset);
+            if(comments.isEmpty()){
+                offset-=5;
+                comments = commentService.getCommentsByBlogId(blogId,offset);
+
+            }
+            model.addAttribute("offset",offset);
             model.addAttribute("comments", comments);
             model.addAttribute("blogId", blogId);
             model.addAttribute("userId",securityUtils.getLoggedInUserId());
@@ -42,6 +52,7 @@ public class CommentController {
             model.addAttribute("comments", new ArrayList<>());
             model.addAttribute("blogId", blogId);
             model.addAttribute("userId",securityUtils.getLoggedInUserId());
+            model.addAttribute("offset",offset);
             LOGGER.error("Error while getting comments of blogId : {}, exception : {}",blogId,e);
             return "user/iframe-error";
         }
@@ -49,9 +60,13 @@ public class CommentController {
     }
 
     @GetMapping("/replies")
-    public String getRepliesByCommentId(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment commentReq, @RequestParam(value = "blogId", required = true) int blogId, @RequestParam(value = "commentId", required = true) int commentId, Model model){
+    public String getRepliesByCommentId(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment commentReq,
+                                        @RequestParam(value = "blogId", required = true) int blogId,
+                                        @RequestParam(value = "commentId", required = true) int commentId,
+                                        @RequestParam(value = "offset",defaultValue = "0", required = true) int offset, Model model){
+        if(offset<0) offset=0;
         try {
-            replies(blogId, commentId, model);
+            replies(blogId, commentId,offset, model);
             commentReq.setParentId(commentId);
             model.addAttribute("comment",commentReq);
             model.addAttribute("userId",securityUtils.getLoggedInUserId());
@@ -63,8 +78,12 @@ public class CommentController {
     }
 
     @GetMapping("/edit")
-    public String editCommentById(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment commentReq, @RequestParam(value = "blogId", required = true) int blogId, @RequestParam(value = "commentId", required = true) int commentId, Model model){
+    public String editCommentById(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment commentReq,
+                                  @RequestParam(value = "blogId", required = true) int blogId,
+                                  @RequestParam(value = "commentId", required = true) int commentId,
+                                  @RequestParam(value = "offset",defaultValue = "0", required = true) int offset,Model model){
         try {
+            if(offset<0) offset=0;
             model.addAttribute("userId",securityUtils.getLoggedInUserId());
             Comment comment= commentService.getCommentById(commentId);
             commentReq = modelMapper.map(comment, com.s2s.scaletoscale.models.request.Comment.class);
@@ -76,14 +95,23 @@ public class CommentController {
                 model.addAttribute("replyTo",parentComment);
                 comments = new ArrayList<>();
                 comments.add(parentComment);
-                List<Comment> replies = commentService.getRepliesFromCommentId(blogId, comment.getParentId());
+                List<Comment> replies = commentService.getRepliesFromCommentId(blogId, comment.getParentId(),offset);
+                if(replies.isEmpty()){
+                    offset-=5;
+                    replies = commentService.getRepliesFromCommentId(blogId, comment.getParentId(),offset);
+                }
                 model.addAttribute("isReply",true);
                 model.addAttribute("replies", replies.stream().filter(comment1 -> comment1.getId()!=commentId).collect(Collectors.toList()));
             }else{
-                comments = commentService.getCommentsByBlogId(blogId);
+                comments = commentService.getCommentsByBlogId(blogId,offset);
+                if(comments.isEmpty()){
+                    offset-=5;
+                    comments = commentService.getCommentsByBlogId(blogId,offset);
+                }
                 model.addAttribute("isReply",false);
             }
             model.addAttribute("comments",comments);
+            model.addAttribute("offset",offset);
         }catch (Exception e){
             LOGGER.error("Error while replies of commentId : {}, exception : {}",commentId,e);
             return "user/iframe-error";
@@ -92,14 +120,19 @@ public class CommentController {
     }
 
     @GetMapping("/delete/{blogId}/{commentId}")
-    public String deleteComment(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment commentReq,@PathVariable("blogId") int blogId, @PathVariable("commentId") int commentId, Model model){
+    public String deleteComment(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment commentReq,
+                                @PathVariable("blogId") int blogId, @PathVariable("commentId") int commentId,
+                                @RequestParam(value = "offset",defaultValue = "0", required = true) int offset, Model model){
+        if(offset<0) offset=0;
         try {
             Comment comment = commentService.getCommentById(commentId);
-            if(comment.getParentId()==-1){
-                commentService.deleteByParentId(commentId);
-            }
             commentService.deleteComment(commentId);
-            List<Comment> comments = commentService.getCommentsByBlogId(blogId);
+            List<Comment> comments = commentService.getCommentsByBlogId(blogId,offset);
+            if(comments.isEmpty()){
+                offset-=5;
+                comments = commentService.getCommentsByBlogId(blogId,offset);
+            }
+            model.addAttribute("offset",offset);
             model.addAttribute("comments", comments);
             model.addAttribute("blogId", blogId);
             model.addAttribute("userId",securityUtils.getLoggedInUserId());
@@ -113,11 +146,12 @@ public class CommentController {
 
     @PostMapping("")
     public String saveComment(@ModelAttribute("comment")com.s2s.scaletoscale.models.request.Comment comment,Model model){
+        model.addAttribute("offset",0);
         try {
             model.addAttribute("userId",securityUtils.getLoggedInUserId());
             List<Comment> comments = commentService.saveComment(comment);
             if(isNotParentComment(comment.getParentId())){
-                replies(comment.getBlogId(),comment.getParentId(),model);
+                replies(comment.getBlogId(),comment.getParentId(),0,model);
             }else {
                 model.addAttribute("comments", comments);
                 model.addAttribute("blogId", comment.getBlogId());
@@ -139,12 +173,18 @@ public class CommentController {
     }
 
 
-    private void replies(int blogId, int commentId, Model model) {
+    private void replies(int blogId, int commentId, int offset, Model model) {
         Comment comment = commentService.getCommentById(commentId);
         model.addAttribute("blogId", blogId);
         List<Comment> comments = new ArrayList<>();
         comments.add(comment);
-        List<Comment> replies = commentService.getRepliesFromCommentId(blogId, commentId);
+        List<Comment> replies = commentService.getRepliesFromCommentId(blogId, commentId, offset);
+        if(replies.isEmpty()){
+            offset-=5;
+            replies = commentService.getRepliesFromCommentId(blogId, commentId, offset);
+
+        }
+        model.addAttribute("offset",offset);
         model.addAttribute("replies", replies);
         model.addAttribute("comments",comments );
         model.addAttribute("replyTo",comment);

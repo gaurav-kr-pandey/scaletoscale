@@ -23,24 +23,20 @@
                             </div>
                         </div>
                     </div>
-                    <form class="row g-3" th:action="@{/authenticate}" method="POST">
-                        <div class="col-2"><h1>Login</h1></div>
-                        <div class="col-sm-4">
-                            <input type="email" name="username" class="form-control" placeholder="username@gmail.com" aria-label="EmaIL">
+                    <form th:action="@{/authenticate}" method="POST">
+                        <div class="mb-3">
+                            <label for="user" class="form-label">Email address</label>
+                            <input id="user" type="email" name="username" class="form-control" placeholder="username@gmail.com" aria-label="Email">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         </div>
-                        <div class="col-sm-4">
-                            <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password">
+                        <div class="mb-3">
+                            <label for="passwordLogin" class="form-label">Password</label>
+                            <input id="passwordLogin" type="password" name="password" class="form-control" placeholder="Password" aria-label="Password">
                         </div>
-                        <div class="col-sm-2">
-                            <button type="submit" class="btn btn-dark">Login</button>
-                        </div>
+                        <button type="submit" class="btn btn-dark">Login</button>
+                        <a href="/signup" class="link-dark mx-1">Sign up</a>
+                        <a href="#forgotPasswod" class="link-dark mx-1">Forgot Password</a>
                     </form>
-                    <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-sm"><a href="#forgotPasswod">Forgot Password</a></div>
-                        <div class="col-sm"><a href="/signup">Signup</a></div>
-                        <div class="col-6"></div>
-                    </div>
                 </div>
             </div>
             <div class="border border-dark rounded mt-4" id="signupForm">
@@ -88,4 +84,5 @@
         </div>
     </div>
 </body>
+<footer th:replace="fragments/footer :: footer"></footer>
 </html>

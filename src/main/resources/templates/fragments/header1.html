@@ -1,0 +1,48 @@
+<head xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+	<header class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ScaleToScale</title>
+		<div class="container px-5">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<a class="navbar-brand pull-left" href="/"><img th:src="@{/images/logo-w.png}" width="60px;" height="60px;">scaletoscale</a>
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+					<!-- <li class="nav-item"><a class="nav-link" href="/pricing">Pricing</a></li> -->
+					<li class="nav-item"><a class="nav-link" href="/faq">FAQ</a></li>
+
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+							<li><a class="dropdown-item" href="/blog-home">Blogs</a></li>
+						<!--	<li><a class="dropdown-item" href="/blog-post">Blog Post</a></li>	-->
+						</ul>
+					</li>
+					<li class="nav-item dropdown mx-2" sec:authorize="hasRole('ROLE_ADMIN')">
+						<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+							<!-- <li><a class="dropdown-item" href="/portfolio">Portfolio Overview</a></li>
+							<li><a class="dropdown-item" href="/portfolio-item">Portfolio Item</a></li>
+							-->
+							<li><a class="dropdown-item" href="/course/create">Create Course</a></li>
+							<li><a class="dropdown-item" href="/write-blog">Write Blog</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="/login" type="button" class="mt-2 btn btn-outline-light me-2 btn-sm" sec:authorize="!isAuthenticated()">Login</a>
+						<a href="/signup" type="button" class="mt-2 btn btn-outline-light me-2 btn-sm" sec:authorize="!isAuthenticated()">Sign-up</a>
+						<a href="javascript: document.logoutForm.submit()" role="menuitem" type="button" class="mt-2 btn btn-outline-light me-2 btn-sm" sec:authorize="isAuthenticated()"> Logout</a>
+						<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true" sec:authorize="isAuthenticated()">
+							<input hidden type="submit" value="Logout"/>
+						</form>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</header>
+</head>
+
+

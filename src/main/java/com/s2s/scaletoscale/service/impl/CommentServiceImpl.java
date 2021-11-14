@@ -10,8 +10,12 @@ import com.s2s.scaletoscale.service.UserProfileService;
 import com.s2s.scaletoscale.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +38,10 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
 
     @Override
-    public List<Comment> getCommentsByBlogId(int blogId) {
+    public List<Comment> getCommentsByBlogId(int blogId, int offset) {
         List<Comment> comments = new ArrayList<>();
-        commentRepository.getCommentsByBlogId(blogId).forEach(comment->comments.add(modelMapper.map(comment,Comment.class)));
+        List<com.s2s.scaletoscale.entities.Comment> commentList = commentRepository.getCommentsByBlogId(blogId,offset);
+        commentList.forEach(comment->comments.add(modelMapper.map(comment,Comment.class)));
         return comments;
     }
 
@@ -51,24 +56,22 @@ public class CommentServiceImpl implements CommentService {
             comment.setParentId(-1);
         commentRepository.save(comment);
         List<Comment> comments = new ArrayList<>();
-        commentRepository.getCommentsByBlogId(commentReq.getBlogId()).forEach(comment1 -> comments.add(modelMapper.map(comment1,Comment.class)));
+        Pageable pageable =  PageRequest.of(0, 5);
+        commentRepository.getCommentsByBlogId(commentReq.getBlogId(),0).forEach(comment1 -> comments.add(modelMapper.map(comment1,Comment.class)));
         return comments;
     }
 
+    @Transactional
     @Override
     public void deleteComment(int id) {
+        commentRepository.deleteByParentId(id);
         commentRepository.deleteById(id);
     }
 
     @Override
-    public void deleteByParentId(int id) {
-        commentRepository.deleteByParentId(id);
-    }
-
-    @Override
-    public List<Comment> getRepliesFromCommentId(int blogId, int commentId) {
+    public List<Comment> getRepliesFromCommentId(int blogId, int commentId, int offset) {
         List<Comment> replies = new ArrayList<>();
-        commentRepository.getRepliesFromCommentId(blogId,commentId).forEach(comment->replies.add(modelMapper.map(comment,Comment.class)));
+        commentRepository.getRepliesFromCommentId(blogId,commentId,offset).forEach(comment->replies.add(modelMapper.map(comment,Comment.class)));
         return replies;
     }
 
