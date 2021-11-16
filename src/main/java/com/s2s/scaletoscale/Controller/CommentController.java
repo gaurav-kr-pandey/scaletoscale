@@ -40,7 +40,7 @@ public class CommentController {
         try {
             List<Comment> comments = commentService.getCommentsByBlogId(blogId,offset);
             if(comments.isEmpty()){
-                offset-=5;
+                offset=0;
                 comments = commentService.getCommentsByBlogId(blogId,offset);
 
             }
@@ -97,7 +97,7 @@ public class CommentController {
                 comments.add(parentComment);
                 List<Comment> replies = commentService.getRepliesFromCommentId(blogId, comment.getParentId(),offset);
                 if(replies.isEmpty()){
-                    offset-=5;
+                    offset=0;
                     replies = commentService.getRepliesFromCommentId(blogId, comment.getParentId(),offset);
                 }
                 model.addAttribute("isReply",true);
@@ -105,7 +105,7 @@ public class CommentController {
             }else{
                 comments = commentService.getCommentsByBlogId(blogId,offset);
                 if(comments.isEmpty()){
-                    offset-=5;
+                    offset=0;
                     comments = commentService.getCommentsByBlogId(blogId,offset);
                 }
                 model.addAttribute("isReply",false);
@@ -129,7 +129,7 @@ public class CommentController {
             commentService.deleteComment(commentId);
             List<Comment> comments = commentService.getCommentsByBlogId(blogId,offset);
             if(comments.isEmpty()){
-                offset-=5;
+                offset=0;
                 comments = commentService.getCommentsByBlogId(blogId,offset);
             }
             model.addAttribute("offset",offset);
@@ -180,7 +180,7 @@ public class CommentController {
         comments.add(comment);
         List<Comment> replies = commentService.getRepliesFromCommentId(blogId, commentId, offset);
         if(replies.isEmpty()){
-            offset-=5;
+            offset=0;
             replies = commentService.getRepliesFromCommentId(blogId, commentId, offset);
 
         }

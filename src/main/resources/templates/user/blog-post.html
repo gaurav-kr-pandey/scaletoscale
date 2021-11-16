@@ -15,18 +15,6 @@
                             <div class="text-muted">SDE-II, Paypal</div>
                         </div>
                     </div>
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Comments</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body">
-                            <!-- Comments section-->
-                            <div>
-                                <iframe th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" style="width:100%;" onload="this.height=this.contentWindow.document.body.scrollHeight;"></iframe>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <section class="col-lg-9">
                     <!-- Post content-->
@@ -49,6 +37,18 @@
                         </section>
                     </article>
                     <div>
+                        <div class="offcanvas offcanvas-end rounded" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                            <div class="offcanvas-header">
+                                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Comments</h5>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <!-- Comments section-->
+                                <div>
+                                    <iframe th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" style="width:100%;" onload="this.height=this.contentWindow.document.body.scrollHeight;"></iframe>
+                                </div>
+                            </div>
+                        </div>
                         <a class="btn btn-dark" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fas fa-comments"></i> Discuss Here</a>
                         <span sec:authorize="!isAuthenticated()">
                             <!-- Button trigger modal -->

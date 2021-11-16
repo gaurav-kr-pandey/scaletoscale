@@ -45,45 +45,27 @@
                                     [(${blog.body})]
                                 </section>
                             </article>
-                            <!-- Modal -->
-                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Login to discuss</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form th:action="@{/authenticate}" method="POST">
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label">Email address</label>
-                                                    <input id="email" type="email" name="username" class="form-control" placeholder="username@gmail.com" aria-label="Email">
-                                                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="password" class="form-label">Password</label>
-                                                    <input id="password" type="password" name="password" class="form-control" placeholder="Password" aria-label="Password">
-                                                </div>
-                                                <button type="submit" class="btn btn-dark">Login</button>
-                                                <a href="/signup" class="btn btn-dark">Sign up</a>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            Close this box once logged in.
+                            <div>
+                                <div class="offcanvas offcanvas-end rounded" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Comments</h5>
+                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-body">
+                                        <!-- Comments section-->
+                                        <div>
+                                            <iframe th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" style="width:100%;" onload="this.height=this.contentWindow.document.body.scrollHeight;"></iframe>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div sec:authorize="!isAuthenticated()">
-                                <!-- Button trigger modal -->
-                                <button sec:authorize="!isAuthenticated()" type="button" class="badge bg-dark my-2 mx-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    Login
-                                </button>
-                                to discuss in the comments.
-                            </div>
-                            <!-- Comments section-->
-                            <div class="ratio ratio-21x9">
-                                <iframe th:src="@{/comment}+'?blogId='+${blog.id}" height="1200px;"></iframe>
+                                <a class="btn btn-dark" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fas fa-comments"></i> Discuss Here</a>
+                                <span sec:authorize="!isAuthenticated()">
+                            <!-- Button trigger modal -->
+                            <a href="/login" sec:authorize="!isAuthenticated()" class="btn btn-dark my-2 mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Login to comment">
+                                Login
+                            </a>
+                            <strong>to discuss in the comments.</strong>
+                        </span>
                             </div>
                         </div>
                     </div>
