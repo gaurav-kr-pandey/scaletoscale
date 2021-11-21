@@ -1,7 +1,7 @@
 i = 60;
-function onTimer() {
-    var otpBtnTimer = document.getElementById('myOtpTimer');
-    var otpBtn = document.getElementById('sendOtp');
+function onTimer(timerId,btnId) {
+    var otpBtnTimer = document.getElementById(timerId);
+    var otpBtn = document.getElementById(btnId);
     otpBtnTimer.innerHTML = 'OTP sent to your mail, you can resend OTP in <strong>' +i+ '</strong> seconds';
     i--;
   if (i < 0) {
@@ -11,19 +11,19 @@ function onTimer() {
   else {
     otpBtn.style.display = "none";
     otpBtnTimer.style.display = "block";
-    setTimeout(onTimer, 1000);
+    setTimeout(function() { onTimer(timerId,btnId); }, 1000);
   }
 }
-function sendOtp() {
+function sendOtp(emailInput,timerId,btnId) {
   const xhttp = new XMLHttpRequest();
-  var email = document.getElementById('email').value;
+  var email = document.getElementById(emailInput).value;
   console.log(email+' : '+validateEmail(email));
   if(validateEmail(email))
     xhttp.open("GET", "/email/otp?email="+email);
   else
     alert("Invalid Email "+email);
   xhttp.send();
-  onTimer();
+  onTimer(timerId,btnId);
 }
 
 function validateEmail(email) {
@@ -41,6 +41,7 @@ function f1() {
         console.log(id1+' '+id2+' '+id3+' '+id4);
         toggleForm(id1,id2,id3,id4);
         document.getElementById('myOtpTimer').style.display = "none";
+        document.getElementById('fpOtpTimer').style.display = "none";
      }catch(e){
         console.log(e);
      }

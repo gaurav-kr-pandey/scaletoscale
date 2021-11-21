@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header"></head>
-<body th:data-id1="${id1}" th:data-id2="${id2}" th:data-id3="${id3}" th:data-id4="${id4}" onload="f1()" >
+<body th:data-id1="${id1}" th:data-id2="${id2}" th:data-id3="${id3}" th:data-id4="${id4}" onload="f1(); save();" >
 <script th:src="@{/js/signup.js}"></script>
     <div class="container py-5">
         <div class="btn-group" role="group" aria-label="Basic example">
@@ -9,7 +9,8 @@
             <button type="button" class="btn btn-lg btn-light" id="btn2" onclick="toggleForm('signupForm','loginForm','btn2','btn1')">Sign up</button>
         </div>
         <div class="row">
-            <div class="border border-dark rounded mt-4" id="loginForm">
+            <div class="border border-dark rounded mt-4 col-6 mx-auto" id="loginForm">
+                <!-- Login Form -->
                 <div class="mx-4 my-4">
                     <div>
                         <div th:if="${param.error}">
@@ -33,12 +34,16 @@
                             <label for="passwordLogin" class="form-label">Password</label>
                             <input id="passwordLogin" type="password" name="password" class="form-control" placeholder="Password" aria-label="Password">
                         </div>
-                        <button type="submit" class="btn btn-dark">Login</button>
-                        <a href="/signup" class="link-dark mx-1">Sign up</a>
-                        <a href="#forgotPasswod" class="link-dark mx-1">Forgot Password</a>
+                        <button type="submit" class="btn btn-dark btn-sm">Login</button>
+                        <a href="/signup" class="btn btn-light btn-sm mx-1">Sign up</a>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Forgot Password
+                        </button>
                     </form>
                 </div>
             </div>
+            <!-- Signup Form -->
             <div class="border border-dark rounded mt-4" id="signupForm">
 
                 <form class="row g-3 mx-2 my-2" id="signup" th:object="${user}" th:action="@{/signup}" method="POST">
@@ -64,7 +69,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="otp" class="form-label" id="myOtpTimer"></label>
-                        <label for="otp" class="form-label" id="sendOtp">Verify Email : <a class="badge rounded-pill bg-dark" onclick="sendOtp();">Send OTP</a></label>
+                        <label for="otp" class="form-label" id="sendOtp">Verify Email : <a class="badge rounded-pill bg-dark" onclick="sendOtp('email','myOtpTimer','sendOtp');">Send OTP</a></label>
                         <input type="text" th:field="*{otp}" class="form-control" th:value="${user.otp}" id="otp">
                     </div>
                     <div class="col-md-6">
@@ -83,6 +88,42 @@
             </div>
         </div>
     </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" th:action="@{/changepass}" method="POST">
+                    <div class="col-md-6">
+                        <label for="userEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="userEmail" id="userEmail">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fpOtp" class="form-label" id="fpOtpTimer"></label>
+                        <label for="fpOtp" class="form-label" id="fpSendOtp">Verify Email : <a class="badge rounded-pill bg-dark" onclick="sendOtp('userEmail','fpOtpTimer','fpSendOtp');">Send OTP</a></label>
+                        <input type="text" class="form-control" name="otp" id="fpOtp">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fpPassword" class="form-label">New Password</label>
+                        <input type="text" class="form-control" name="newPassword" id="fpPassword">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fpConfirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" name="confirmNewPassword" id="fpConfirmPassword">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <footer th:replace="fragments/footer :: footer"></footer>
 </html>

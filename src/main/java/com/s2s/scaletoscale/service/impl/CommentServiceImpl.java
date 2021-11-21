@@ -56,7 +56,6 @@ public class CommentServiceImpl implements CommentService {
             comment.setParentId(-1);
         commentRepository.save(comment);
         List<Comment> comments = new ArrayList<>();
-        Pageable pageable =  PageRequest.of(0, 5);
         commentRepository.getCommentsByBlogId(commentReq.getBlogId(),0).forEach(comment1 -> comments.add(modelMapper.map(comment1,Comment.class)));
         return comments;
     }

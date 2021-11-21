@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header"></head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" onload="init()">
 <main class="flex-shrink-0">
     <!-- Header-->
     <header class="bg-dark py-2">
@@ -100,11 +100,10 @@
         </div>
     </section>
     <!-- Testimonial section-->
-    <div class="bg-light">
-        <div class="container px-5 my-5">
+    <div class="container bg-light">
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-10 col-xl-7">
-                    <div class="text-center">
+                    <div class="text-center mx-3 my-3">
                         <div class="fs-4 mb-4 fst-italic">"Working with Start Bootstrap templates has saved me tons of development time when building new projects! Starting with a Bootstrap template just makes things easier!"</div>
                         <div class="d-flex align-items-center justify-content-center">
                             <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
@@ -117,7 +116,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 <div class="container pb-5">
     <!-- Call to action-->

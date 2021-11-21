@@ -35,6 +35,9 @@ public class UserProfile implements Serializable {
 	@Column(nullable=false, length=100)
 	private String role;
 
+	@Column(nullable=true, length=255)
+	private String userPhoto;
+
 	@Column(name = "is_email_verified",nullable = false)
 	private boolean isEmailVerified;
 
@@ -217,6 +220,14 @@ public class UserProfile implements Serializable {
 		comment.setUserProfile(null);
 
 		return comment;
+	}
+
+	public String getUserPhoto() {
+		return userPhoto;
+	}
+
+	public void setUserPhoto(String userPhoto) {
+		this.userPhoto = userPhoto;
 	}
 
 	public boolean getIsEmailVerified() {

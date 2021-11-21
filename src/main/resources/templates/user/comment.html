@@ -5,7 +5,7 @@
   <title>Comments</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body onload="save()">
 <div>
   <section id="cmt" name="cmt">
     <div class="card bg-light">
@@ -24,7 +24,7 @@
               <div class="col-10 text-truncate text-muted" th:text="${replyTo.comments}"></div>
             </div>
             <textarea class="form-control" rows="3" th:field="*{comments}" placeholder="Join the discussion and leave a comment!"></textarea>
-            <button type="submit" class="btn btn-outline-dark btn-sm my-2"><i class="far fa-comment-alt"></i> Comment</button>
+            <button type="submit" class="btn btn-outline-dark btn-sm my-2"><i class="fas fa-comment-alt"></i> Comment</button>
           </form>
         </div>
         <!-- Comment with nested comments-->
@@ -34,29 +34,29 @@
           <div class="ms-3">
             <span class="fw-bold" th:text="${c.userProfile.firstName}">Commenter Name</span>
             <p th:text="${c.comments}">If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.</p>
-            <a class="badge bg-dark"  th:if="${isReply}" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset}"><i class="fas fa-arrow-circle-left"></i> Back</a>
-            <a class="badge bg-dark" th:if="!${isReply}" th:href="@{/comment/replies}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset}"><i class="fas fa-reply"></i> Reply</a>
-            <a class="badge bg-dark" sec:authorize="isAuthenticated()" th:if="${userId}==${c.userProfileId}" th:href="@{/comment/edit}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset}"><i class="far fa-edit"></i> Edit</a>
-            <a class="badge bg-dark" sec:authorize="isAuthenticated()" th:if="${userId}==${c.userProfileId}" th:href="@{/comment/delete/}+${blogId}+'/'+${c.id}+'?offset='+${offset}"><i class="fas fa-trash"></i> Delete</a>
+            <a class="btn btn-light btn-sm"  th:if="${isReply}" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset}"><i class="fas fa-arrow-circle-left"></i> Back</a>
+            <a class="btn btn-light btn-sm" th:if="!${isReply}" th:href="@{/comment/replies}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset}"><i class="fas fa-reply"></i> Reply</a>
+            <a class="btn btn-light btn-sm" sec:authorize="isAuthenticated()" th:if="${userId}==${c.userProfileId}" th:href="@{/comment/edit}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset}"><i class="fas fa-pen-square"></i> Edit</a>
+            <a class="btn btn-light btn-sm" sec:authorize="isAuthenticated()" th:if="${userId}==${c.userProfileId}" th:href="@{/comment/delete/}+${blogId}+'/'+${c.id}+'?offset='+${offset}"><i class="fas fa-trash"></i> Delete</a>
             <!-- Child comment 1 -->
             <div class="d-flex mt-4" th:each="reply : ${replies}">
               <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
               <div class="ms-3">
                 <div class="fw-bold" th:text="${reply.userProfile.firstName}">Commenter Name</div>
                 <p th:text="${reply.comments}">And under those conditions, you cannot establish a capital-market evaluation of that enterprise. You can't get investors.</p>
-                <a class="badge bg-dark" sec:authorize="isAuthenticated()" th:if="${userId}==${reply.userProfileId}" th:href="@{/comment/edit}+'?blogId='+${blogId}+'&commentId='+${reply.id}+'&offset='+${offset}"><i class="far fa-edit"></i> Edit</a>
-                <a class="badge bg-dark" sec:authorize="isAuthenticated()" th:if="${userId}==${reply.userProfileId}" th:href="@{/comment/delete/}+${blogId}+'/'+${reply.id}+'?offset='+${offset}"><i class="fas fa-trash"></i> Delete</a>
+                <a class="btn btn-light btn-sm" sec:authorize="isAuthenticated()" th:if="${userId}==${reply.userProfileId}" th:href="@{/comment/edit}+'?blogId='+${blogId}+'&commentId='+${reply.id}+'&offset='+${offset}"><i class="fas fa-pen-square"></i> Edit</a>
+                <a class="btn btn-light bth-sm" sec:authorize="isAuthenticated()" th:if="${userId}==${reply.userProfileId}" th:href="@{/comment/delete/}+${blogId}+'/'+${reply.id}+'?offset='+${offset}"><i class="fas fa-trash"></i> Delete</a>
               </div>
             </div>
-            <div th:if="${isReply}" class="container mt-4">
-              <a class="badge bg-primary" th:href="@{/comment/replies}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset-5}"><i class="fas fa-arrow-circle-left"></i> Previous</a>
-              <a class="badge bg-primary" style="float: right;" th:href="@{/comment/replies}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset+5}">Next <i class="fas fa-arrow-circle-right"></i></a>
+            <div th:if="${isReply}" class="container mt-5">
+              <a class="btn btn-light btn-sm" th:href="@{/comment/replies}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset-10}"><i class="fas fa-arrow-circle-left"></i> Previous</a>
+              <a class="btn btn-light btn-sm" style="float: right;" th:href="@{/comment/replies}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset+10}">Next <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         </div>
-        <div th:if="!${isReply}" class="container">
-          <a class="badge bg-primary" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset-5}"><i class="fas fa-arrow-circle-left"></i> Previous</a>
-          <a class="badge bg-primary" style="float: right;" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset+5}">Next <i class="fas fa-arrow-circle-right"></i></a>
+        <div th:if="!${isReply}" class="container mt-5">
+          <a class="btn btn-light btn-sm" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset-10}"><i class="fas fa-arrow-circle-left"></i> Previous</a>
+          <a class="btn btn-light btn-sm" style="float: right;" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset+10}">Next <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div>
     </div>
@@ -64,6 +64,7 @@
 </div>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 <link th:href="@{/css/style.css}" rel="stylesheet" />
+<script th:src="@{/js/init.js}"></script>
 <script src="https://kit.fontawesome.com/075f865118.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>

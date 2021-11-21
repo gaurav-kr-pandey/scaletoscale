@@ -12,6 +12,7 @@ public class UserProfile {
 	private String confirmPassword;
 	private String otp;
 	private boolean isEmailVerified;
+	private String userPhoto;
 
 	public UserProfile() {
 	}
@@ -86,5 +87,13 @@ public class UserProfile {
 
 	public void setIsEmailVerified(boolean emailVerified) {
 		isEmailVerified = emailVerified;
+	}
+
+	public String getUserPhoto() {
+		return userPhoto;
+	}
+
+	public void setUserPhoto(String userPhoto) {
+		this.userPhoto = userPhoto;
 	}
 }
