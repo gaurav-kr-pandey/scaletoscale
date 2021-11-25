@@ -99,6 +99,11 @@ public class PageNavigationController {
     public String portfolioItem(Model model){
         return "user/portfolio-item";
     }
+
+    @GetMapping("/verify")
+    public String verifyPage(Model model){
+        return "user/verify";
+    }
 /*
     @GetMapping("/error")
     public String error(Model model){

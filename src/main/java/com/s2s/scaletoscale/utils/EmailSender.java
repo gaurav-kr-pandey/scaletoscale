@@ -21,15 +21,20 @@ public class EmailSender {
     private JavaMailSender emailSender;
 
 
-    public void sendSimpleMessage(EmailDTO emailDto) throws MessagingException {
-        String to = emailDto.getTo();
-        String subject = emailDto.getSubject();
-        String text = emailDto.getBody();
-        MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(text, true);
-        emailSender.send(message);
+    public void sendSimpleMessage(EmailDTO emailDto) {
+        try {
+            String to = emailDto.getTo();
+            String subject = emailDto.getSubject();
+            String text = emailDto.getBody();
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(text, true);
+            emailSender.send(message);
+        }catch (MessagingException exception){
+            System.out.println("**************************** Messaging Exception ****************");
+            System.out.println(exception);
+        }
     }
 }

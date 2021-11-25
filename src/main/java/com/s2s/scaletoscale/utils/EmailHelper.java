@@ -1,5 +1,6 @@
 package com.s2s.scaletoscale.utils;
 
+import com.s2s.scaletoscale.constants.EmailTemplates;
 import com.s2s.scaletoscale.models.dto.EmailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,8 +24,6 @@ public class EmailHelper {
     @Value("${domain}")
     String domain;
 
-    @Value("${email.format.otp}") String otpEmailFormat;
-
     @PostConstruct
     void init(){
         sendEmail();
@@ -37,7 +36,7 @@ public class EmailHelper {
             while(true) {
                 try {
                     emailSender.sendSimpleMessage(sendEmailStore.take());
-                } catch (MessagingException | InterruptedException e) {
+                } catch (InterruptedException e) {
                     System.out.println("Exception : " + e);
                 }
             }
@@ -46,6 +45,7 @@ public class EmailHelper {
     }
 
     public String constructOtpEmailBody(String otp, String email){
+        String otpEmailFormat = EmailTemplates.OTP;
         return otpEmailFormat.replace("{{otp}}",otp+"").replace("{{url}}",domain+"email/verify"+"?email="+email+"&otp="+otp);
     }
 

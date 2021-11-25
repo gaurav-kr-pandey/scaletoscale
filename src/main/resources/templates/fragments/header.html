@@ -48,15 +48,18 @@
             </ul>
           </li>
         </ul>
-
-     <!--   <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-        </form> -->
-
-        <div class="text-end">
-          <a href="/login" type="button" class="mt-2 btn btn-dark me-2 btn-sm fw-bold" sec:authorize="!isAuthenticated()"><i class="fas fa-sign-in-alt"></i> Login</a>
-          <a href="/signup" type="button" class="mt-2 btn btn-dark me-2 btn-sm fw-bold" sec:authorize="!isAuthenticated()"><i class="fas fa-user-plus"></i> Sign-up</a>
-          <a href="javascript: document.logoutForm.submit()" role="menuitem" type="button" class="mt-2 btn btn-dark me-2 btn-sm fw-bold" sec:authorize="isAuthenticated()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <div class="text-end" sec:authorize="!isAuthenticated()">
+          <a href="/login" type="button" class="mt-2 btn btn-dark me-2 btn-sm fw-bold"><i class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="/signup" type="button" class="mt-2 btn btn-dark me-2 btn-sm fw-bold"><i class="fas fa-user-plus"></i> Sign-up</a>
+        </div>
+        <div class="text-end dropcenter" sec:authorize="isAuthenticated()">
+          <a class="btn btn-large btn-dark" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle fa-2x"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a href="/update/user" type="button" class="dropdown-item text-center"><i class="fas fa-user-edit"></i> Profile</a></li>
+            <li><a href="javascript: document.logoutForm.submit()" role="menuitem" type="button" class="dropdown-item text-center" sec:authorize="isAuthenticated()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          </ul>
           <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true" sec:authorize="isAuthenticated()">
             <input hidden type="submit" value="Logout"/>
           </form>

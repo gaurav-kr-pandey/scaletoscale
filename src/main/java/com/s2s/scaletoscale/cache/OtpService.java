@@ -30,7 +30,7 @@ public class OtpService {
     }
 
     public int generateOtp(){
-        int lowerBound = 10000;
+        int lowerBound = 100000;
         int upperBound = 999999;
         Random random = new Random();
         return random.nextInt(upperBound-lowerBound) + lowerBound;
