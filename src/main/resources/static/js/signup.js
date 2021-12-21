@@ -7,6 +7,7 @@ function onTimer(timerId,btnId) {
   if (i < 0) {
     otpBtn.style.display = "block";
     otpBtnTimer.style.display = "none";
+    i=60;
   }
   else {
     otpBtn.style.display = "none";
@@ -23,6 +24,10 @@ function sendOtp(emailInput,timerId,btnId) {
   else
     alert("Invalid Email "+email);
   xhttp.send();
+  if(i<60){
+    i=0;
+    i=60;
+  }
   onTimer(timerId,btnId);
 }
 

@@ -43,7 +43,7 @@ function hideTimer() {document.getElementById('myOtpTimer').style.display = "non
                     </div>
                     <div class="col-md-6" th:if="!${user.isEmailVerified}">
                         <label for="otp" class="form-label" id="myOtpTimer"></label>
-                        <label for="otp" class="form-label" id="sendOtp" >Verify Email : <a class="badge rounded-pill bg-dark" onclick="sendOtp();">Send OTP</a></label>
+                        <label for="otp" class="form-label" id="sendOtp" >Verify Email : <a class="badge rounded-pill bg-dark" onclick="sendOtp('email','myOtpTimer','sendOtp');">Send OTP</a></label>
                         <input type="text" th:field="*{otp}" class="form-control"  id="otp">
                     </div>
                     <div class="col-md-6">

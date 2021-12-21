@@ -11,18 +11,11 @@
     <div class="card bg-light">
       <div class="card-body">
         <!-- Comment form-->
-        <div sec:authorize="isAuthenticated()">
+        <div th:if="!${isReply}" sec:authorize="isAuthenticated()">
           <form class="mb-4" th:action="@{/comment}" th:object="${comment}" method="POST">
             <input type="hidden"  th:field="*{parentId}" th:value="${comment.id}" />
             <input type="hidden"  th:field="*{blogId}" th:value="${blogId}" />
             <input type="hidden"  th:field="*{id}" th:value="${id}" />
-            <div th:if="${isReply}" class="text-wrap">
-              <span th:if="${isReply}" class="text-primary">
-                <a th:if="${isReply}" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset}"><i class="fas fa-reply-all"></i></a>
-                <strong th:text="${'@'+ #strings.toLowerCase(replyTo.userProfile.firstName)}"></strong>
-              </span>
-              <div class="col-10 text-truncate text-muted" th:text="${replyTo.comments}"></div>
-            </div>
             <textarea class="form-control" rows="3" th:field="*{comments}" placeholder="Join the discussion and leave a comment!"></textarea>
             <button type="submit" class="btn btn-outline-dark btn-sm my-2"><i class="fas fa-comment-alt"></i> Comment</button>
           </form>
@@ -32,8 +25,32 @@
           <!-- Parent comment-->
           <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
           <div class="ms-3">
-            <span class="fw-bold" th:text="${c.userProfile.firstName}">Commenter Name</span>
-            <p th:text="${c.comments}">If you're going to lead a space frontier, it has to be government; it'll never be private enterprise. Because the space frontier is dangerous, and it's expensive, and it has unquantified risks.</p>
+            <span class="fw-bold" th:if="!${isReply}" th:text="${c.userProfile.firstName}">Commenter Name</span>
+            <div class="fw-bold font-monospace text-primary" th:if="${isReply}" th:text="${c.userProfile.firstName}">Commenter Name</div>
+            <!-- Replying to parent comment -->
+            <p th:if="!${isReply}" th:text="${c.comments}"></p>
+            <div class="badge bg-dark col-4 text-truncate fst-italic" th:if="${isReply}" th:text="${c.comments}"  style="width: 6rem;">
+              This text should wrap.
+            </div>
+            <p ></p>
+            <div th:if="${isReply}" sec:authorize="isAuthenticated()">
+              <form class="mb-4" th:action="@{/comment}" th:object="${comment}" method="POST">
+                <input type="hidden"  th:field="*{parentId}" th:value="${comment.id}" />
+                <input type="hidden"  th:field="*{blogId}" th:value="${blogId}" />
+                <input type="hidden"  th:field="*{id}" th:value="${id}" />
+                <div th:if="${isReply}" class="text-wrap">
+                  <!--
+              <span th:if="${isReply}" class="text-primary">
+                <a th:if="${isReply}" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset}"><i class="fas fa-reply-all"></i></a>
+                <strong th:text="${'@'+ #strings.toLowerCase(replyTo.userProfile.firstName)}"></strong>
+              </span>
+                  <div class="col-10 text-truncate text-muted" th:text="${replyTo.comments}"></div>
+                  -->
+                </div>
+                <textarea class="form-control" rows="3" th:field="*{comments}" placeholder="Join the discussion and leave a comment!"></textarea>
+                <button type="submit" class="btn btn-outline-dark btn-sm my-2"><i class="fas fa-comment-alt"></i> Comment</button>
+              </form>
+            </div>
             <a class="btn btn-light btn-sm"  th:if="${isReply}" th:href="@{/comment}+'?blogId='+${blogId}+'&offset='+${offset}"><i class="fas fa-arrow-circle-left"></i> Back</a>
             <a class="btn btn-light btn-sm" th:if="!${isReply}" th:href="@{/comment/replies}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset}"><i class="fas fa-reply"></i> Reply</a>
             <a class="btn btn-light btn-sm" sec:authorize="isAuthenticated()" th:if="${userId}==${c.userProfileId}" th:href="@{/comment/edit}+'?blogId='+${blogId}+'&commentId='+${c.id}+'&offset='+${offset}"><i class="fas fa-pen-square"></i> Edit</a>
