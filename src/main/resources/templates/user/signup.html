@@ -4,7 +4,7 @@
 <body th:data-id1="${id1}" th:data-id2="${id2}" th:data-id3="${id3}" th:data-id4="${id4}" onload="f1(); save();">
 <script th:src="@{/js/signup.js}"></script>
 <div class="container py-5">
-    <div class="btn-group" role="group" aria-label="Basic example">
+    <div class="btn-group py-5" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-lg btn-dark" id="btn1"
                 onclick="toggleForm('loginForm','signupForm','btn1','btn2')">Login
         </button>
@@ -13,10 +13,11 @@
         </button>
     </div>
     <div class="row">
-        <div class="border border-dark rounded mt-4 col-6 mx-auto" id="loginForm">
+        <div class="shadow p-3 mb-5 bg-body rounded mt-4 col-6 mx-auto" id="loginForm">
             <!-- Login Form -->
             <div class="mx-4 my-4">
                 <div>
+                    <h1 align="center">Login</h1>
                     <div th:if="${param.error}">
                         <div class="alert alert-danger col-xs-offset-1 col-xs-6 d-flex flex-nowrap" align="center">
                             Invalid username and password.
@@ -57,7 +58,7 @@
             </div>
         </div>
         <!-- Signup Form -->
-        <div class="border border-dark rounded mt-4" id="signupForm">
+        <div class="shadow p-3 mb-5 bg-body rounded mt-4" id="signupForm">
 
             <form class="row g-3 mx-2 my-2" id="signup" th:object="${user}" th:action="@{/signup}" method="POST">
                 <div class="col-md-12">

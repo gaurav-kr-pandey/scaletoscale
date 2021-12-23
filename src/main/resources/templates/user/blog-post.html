@@ -5,17 +5,33 @@
 <main class="flex-shrink-0">
     <!-- Page Content-->
     <section class="py-5">
-        <div class="container px-5 my-5">
+        <div id="contents" class="container px-5 my-5">
             <div class="row gx-5">
                 <div class="col-lg-3">
                     <div class="d-flex align-items-center mt-lg-5 mb-4">
-                        <img class="img-fluid rounded-circle" height="50" width="50" src="https://drive.google.com/uc?id=1AHs6MPC4bbJuad7IV1f2pNf29r5VaS8k" alt="..." />
+                        <img class="img-fluid rounded-circle" loading="lazy" height="50" width="50" src="https://drive.google.com/uc?id=1AHs6MPC4bbJuad7IV1f2pNf29r5VaS8k" alt="..." />
                         <div class="ms-3">
                             <div class="fw-bold" th:text="${blog.userProfile.firstName}+' '+${blog.userProfile.lastName}">Valerie Luna</div>
                             <div class="text-muted">SDE-II, Paypal</div>
                         </div>
                     </div>
+                    <div class="btn-group-vertical">
+                        <div class="fixed-bottom px-5 py-5">
+                            <a class="btn btn-light" target="commentFrame" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas"><i class="fas fa-comments fa-3x"></i></a>
+                            <strong>Discuss</strong>
+                        </div>
+                        <div class="fixed-start px-5" id="unlikeDiv">
+                            <a class="btn btn-light" id="unlike" onclick="toggleVisibility('unlikeDiv','likeDiv');"><i class="fas fa-thumbs-up fa-3x"></i></a>
+                            <strong id="unlikeText">Liked</strong>
+                        </div>
+                        <div class="fixed-start px-5" id="likeDiv">
+                            <a class="btn btn-light" id="like" onclick="toggleVisibility('likeDiv','unlikeDiv');"><i class="far fa-thumbs-up fa-3x"></i></a>
+                            <strong id="likeText">Like</strong>
+                        </div>
+                    </div>
                 </div>
+
+
                 <section class="col-lg-9">
                     <!-- Post content-->
                     <article>
@@ -32,24 +48,25 @@
                         </header>
                         <!-- Preview image figure-->
                         <!-- Post content-->
-                        <section class="mb-5" id="execute">
-                            [(${blog.body})]
-                        </section>
+                        <div>
+                            <section class="mb-5" id="execute">
+                                [(${blog.body})]
+                            </section>
+                        </div>
                     </article>
                     <div>
-                        <div class="offcanvas offcanvas-end rounded" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="comment-offcanvas" aria-labelledby="comment-offcanvasLabel">
                             <div class="offcanvas-header">
-                                <h5 class="offcanvas-title" id="offcanvasExampleLabel"><a href="/login" class="btn btn-dark" sec:authorize="!isAuthenticated()"> Login to </a> Discuss here!</h5>
+                                <h5 class="offcanvas-title" id="comment-offcanvasLabel">Discuss Here!</h5>
+                                <a href="/login" class="stretched-link" sec:authorize="!isAuthenticated()"> Login </a>
                                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body">
                                 <!-- Comments section-->
-                                <div>
-                                    <iframe th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" style="width:100%;" onload="this.height=this.contentWindow.document.body.scrollHeight;"></iframe>
-                                </div>
+                                <iframe width="100%" height="100%" frameborder="0" scrolling="no"  th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" name="commentFrame" ></iframe>
                             </div>
                         </div>
-                        <a class="btn btn-dark" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fas fa-comments"></i> Discuss Here</a>
+                        <a class="btn btn-dark" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas"><i class="fas fa-comments"></i> Discuss Here</a>
                         <span sec:authorize="!isAuthenticated()">
                             <!-- Button trigger modal -->
                             <a href="/login" sec:authorize="!isAuthenticated()" class="btn btn-dark my-2 mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Login to comment">
@@ -64,6 +81,11 @@
         </div>
     </section>
 </main>
+<script>
+    function like(value){
+
+    }
+</script>
 <!-- Footer-->
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>

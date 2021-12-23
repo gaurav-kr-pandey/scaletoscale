@@ -45,14 +45,14 @@ public class EmailController {
     @Autowired
     private EmailHelper emailHelper;
 
-    void inti() throws InterruptedException {
+    void backup() throws InterruptedException, ExecutionException {
         System.out.println("*****************************************************");
         long start = System.currentTimeMillis();
         System.out.println(start);
         int i = 10;
         while(i-->0){
-            int otp = otpService.generateOtp();
             String to = "gaurav17p@gmail.com";
+            int otp = otpService.generateOtp(to);
             String subject = "Secret Code - "+otp;
             String body = emailHelper.constructOtpEmailBody(otp+"",to);
             EmailDTO emailDTO = new EmailDTO(to,subject,body);
@@ -82,8 +82,8 @@ public class EmailController {
     }
 
     @GetMapping("/otp")
-    public String verifyEmail(@ModelAttribute("user") UserProfile user, @RequestParam("email") String email, Model model) throws InterruptedException {
-        String otp = otpService.generateOtp()+"";
+    public String verifyEmail(@ModelAttribute("user") UserProfile user, @RequestParam("email") String email, Model model) throws InterruptedException, ExecutionException {
+        String otp = otpService.generateOtp(email)+"";
         otpService.storeOtp(email,otp);
         String to = email;
         String subject = "Secret Code - "+otp;

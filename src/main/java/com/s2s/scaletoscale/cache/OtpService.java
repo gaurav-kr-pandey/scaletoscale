@@ -4,6 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.Locale;
@@ -29,7 +30,12 @@ public class OtpService {
                 .build(cacheLoader);
     }
 
-    public int generateOtp(){
+    public int generateOtp(String key) throws ExecutionException {
+        String otp = cache.getIfPresent(key);
+        if(StringUtils.hasText(otp)){
+            storeOtp(key,otp);
+            return Integer.parseInt(otp);
+        }
         int lowerBound = 100000;
         int upperBound = 999999;
         Random random = new Random();
