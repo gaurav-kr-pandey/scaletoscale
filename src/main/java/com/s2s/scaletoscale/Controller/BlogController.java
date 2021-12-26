@@ -3,11 +3,13 @@ package com.s2s.scaletoscale.Controller;
 import com.s2s.scaletoscale.models.request.Blog;
 import com.s2s.scaletoscale.models.response.UserProfile;
 import com.s2s.scaletoscale.service.BlogService;
+import com.s2s.scaletoscale.service.UserLikeService;
 import com.s2s.scaletoscale.service.UserProfileService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,9 @@ import java.util.Optional;
 @Controller
 @RequestMapping("blog")
 public class BlogController {
+
+    @Autowired
+    private UserLikeService userLikeService;
 
     @Autowired
     private UserProfileService userProfileService;
@@ -70,11 +75,30 @@ public class BlogController {
     }
 
     @GetMapping("/{blogId}")
-    public String getBlog(@PathVariable("blogId") int blogId, Model model){
+    public String toggleUserLike(@PathVariable("blogId") int blogId, Model model){
         Optional<com.s2s.scaletoscale.models.response.Blog> blog = blogService.getBlog(blogId);
         if (blog.isPresent()) {
             com.s2s.scaletoscale.models.response.Blog blogResponse = blog.get();
             model.addAttribute("blog", blogResponse);
+            model.addAttribute("isLiked",userLikeService.getUserLike(blogId));
+            model.addAttribute("likeCount",userLikeService.getTotalLikes(blogId));
+        } else {
+            model.addAttribute("status", "Blog does not exists");
+            return "user/home";
+        }
+        return "user/blog-post";
+    }
+
+    @Secured({"ROLE_STUDENT","ROLE_ADMIN","ROLE_SUPER_ADMIN"})
+    @GetMapping("/like/{blogId}")
+    public String getBlog(@PathVariable("blogId") int blogId, Model model){
+        Optional<com.s2s.scaletoscale.models.response.Blog> blog = blogService.getBlog(blogId);
+        if (blog.isPresent()) {
+            userLikeService.toggleUserLike(blogId);
+            com.s2s.scaletoscale.models.response.Blog blogResponse = blog.get();
+            model.addAttribute("blog", blogResponse);
+            model.addAttribute("isLiked",userLikeService.getUserLike(blogId));
+            model.addAttribute("likeCount",userLikeService.getTotalLikes(blogId));
         } else {
             model.addAttribute("status", "Blog does not exists");
             return "user/home";

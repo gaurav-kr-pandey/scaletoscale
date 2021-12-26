@@ -19,7 +19,7 @@ public class UserLike implements Serializable {
 	@Column(unique=true, nullable=false)
 	private int id;
 
-	private byte liked;
+	private boolean liked;
 
 	//bi-directional many-to-one association to Blog
 	@ManyToOne
@@ -42,11 +42,11 @@ public class UserLike implements Serializable {
 		this.id = id;
 	}
 
-	public byte getLiked() {
+	public boolean getLiked() {
 		return this.liked;
 	}
 
-	public void setLiked(byte liked) {
+	public void setLiked(boolean liked) {
 		this.liked = liked;
 	}
 

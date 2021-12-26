@@ -8,7 +8,23 @@
                 <div class="container px-2 my-2">
 
                     <div class="row gx-5">
-                        <div class="col-lg-3">
+                        <div class="col-lg-1">
+                            <div class="fixed-bottom vstack gap-1 px-1 py-5">
+                                <div id="unlikeDiv">
+                                    <a class="btn btn-light" id="unlike" onclick="toggleVisibility('unlikeDiv','likeDiv');"><i class="fas fa-thumbs-up fa-1x"></i></a>
+                                    <strong id="unlikeText">Liked</strong>
+                                </div>
+                                <div id="likeDiv">
+                                    <a class="btn btn-light" id="like" onclick="toggleVisibility('likeDiv','unlikeDiv');"><i class="far fa-thumbs-up fa-1x"></i></a>
+                                    <strong id="likeText">Like</strong>
+                                </div>
+                                <div>
+                                    <a class="btn btn-light" target="commentFrame" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas"><i class="fas fa-comments fa-1x"></i></a>
+                                    <strong>Discuss</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
                             <div class="d-flex align-items-center mt-lg-5 mb-4">
                                 <img class="img-fluid rounded-circle" loading="lazy" height="50" width="50" src="https://drive.google.com/uc?id=1AHs6MPC4bbJuad7IV1f2pNf29r5VaS8k" alt="..." />
                                 <div class="ms-3">
@@ -23,7 +39,7 @@
                                 <a th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:each="b : ${blogs}"
                                    th:class="'rounded list-group-item list-group-item-action py-3 lh-tight '+${b.id==blog.id ? 'active' : ''}" aria-current="true">
                                     <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span class="fs-5 fw-semibold" th:text="${b.title}"></span>
+                                        <span class="fs-6 fw-semibold" th:text="${b.title}"></span>
                                     </div>
                                 </a>
                             </div>

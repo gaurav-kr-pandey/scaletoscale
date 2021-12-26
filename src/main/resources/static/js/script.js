@@ -5,8 +5,24 @@ function toggleVisibility(id1, id2){
     ele2.style.display = "block";
 }
 function hide(...args) {
-  args.forEach(id => document.getElementById(id).style.display='none')
+  args.forEach(id => {
+    document.getElementById(id).style.display='none';
+    console.log("Hide ID : "+ id);
+  });
 }
 function show(...args) {
-  args.forEach(id => document.getElementById(id).style.display='block')
+  args.forEach(id => {
+  document.getElementById(id).style.display='block';
+  console.log("Show ID : "+ id);
+  });
+}
+
+function isNotAuthorized(){
+    try{
+        var notAuthorized = document.getElementById('isNotAuthorized');
+        if(notAuthorized) return true;
+    }catch(err){
+        return false;
+    }
+    return false;
 }

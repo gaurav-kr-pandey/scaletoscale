@@ -19,6 +19,8 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService {
 
+    private static final int CHAR_LIMIT = 100;
+
     @Autowired
     private SecurityUtils securityUtils;
 
@@ -38,12 +40,15 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> getCommentsByBlogId(int blogId, int offset) {
         List<Comment> comments = new ArrayList<>();
         List<com.s2s.scaletoscale.entities.Comment> commentList = commentRepository.getCommentsByBlogId(blogId,offset);
+        commentList.stream().filter(comment -> comment.getComments().length()>CHAR_LIMIT).forEach(comment->comment.setComments(comment.getComments().substring(0,CHAR_LIMIT)+"..."));
         commentList.forEach(comment->comments.add(modelMapper.map(comment,Comment.class)));
         return comments;
     }
 
     @Override
     public List<Comment> saveComment(com.s2s.scaletoscale.models.request.Comment commentReq) {
+        if(commentReq.getComments().length()>10000)
+            commentReq.setComments(commentReq.getComments().substring(0,10000));
         Blog blog = blogService.getBlog(commentReq.getBlogId()).get();
         UserProfile userProfile = userProfileService.getUserProfile(securityUtils.getLoggedInUsername());
         com.s2s.scaletoscale.entities.Comment comment = modelMapper.map(commentReq, com.s2s.scaletoscale.entities.Comment.class);
@@ -67,7 +72,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> getRepliesFromCommentId(int blogId, int commentId, int offset) {
         List<Comment> replies = new ArrayList<>();
-        commentRepository.getRepliesFromCommentId(blogId,commentId,offset).forEach(comment->replies.add(modelMapper.map(comment,Comment.class)));
+        List<com.s2s.scaletoscale.entities.Comment> commentList = commentRepository.getRepliesFromCommentId(blogId,commentId,offset);
+        commentList.stream().filter(comment -> comment.getComments().length()>CHAR_LIMIT).forEach(comment->comment.setComments(comment.getComments().substring(0,CHAR_LIMIT)+"..."));
+        commentList.forEach(comment->replies.add(modelMapper.map(comment,Comment.class)));
         return replies;
     }
 

@@ -8,3 +8,9 @@ function getAndLoadResponse(url,id){
     xhttp.open("GET", url);
     xhttp.send();
 }
+
+function asyncGetRequest(url){
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", url);
+    xhttp.send();
+}

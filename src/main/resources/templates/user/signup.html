@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header"></head>
-<body th:data-id1="${id1}" th:data-id2="${id2}" th:data-id3="${id3}" th:data-id4="${id4}" onload="f1(); save();">
+<body th:data-id1="${id1}" th:data-id2="${id2}" th:data-id3="${id3}" th:data-id4="${id4}" onload="f1(); save();"
+      th:background="@{/images/login-bg.jpg}"
+    style="background-size: cover; background-repeat: no-repeat; background-position: center center;">
 <script th:src="@{/js/signup.js}"></script>
 <div class="container py-5">
     <div class="btn-group py-5" role="group" aria-label="Basic example">
@@ -58,7 +60,7 @@
             </div>
         </div>
         <!-- Signup Form -->
-        <div class="shadow p-3 mb-5 bg-body rounded mt-4" id="signupForm">
+        <div class="shadow p-3 mb-5 bg-body rounded mt-4 col-8 mx-auto" id="signupForm">
 
             <form class="row g-3 mx-2 my-2" id="signup" th:object="${user}" th:action="@{/signup}" method="POST">
                 <div class="col-md-12">
