@@ -1,94 +1,142 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header"></head>
-    <body class="d-flex flex-column py-5" onload="init()">
-        <main class="flex-shrink-0">
-            <!-- Page Content-->
-            <section class="py-2">
-                <div class="container px-2 my-2">
-
-                    <div class="row gx-5">
-                        <div class="col-lg-1">
-                            <div class="fixed-bottom vstack gap-1 px-1 py-5">
-                                <div id="unlikeDiv">
-                                    <a class="btn btn-light" id="unlike" onclick="toggleVisibility('unlikeDiv','likeDiv');"><i class="fas fa-thumbs-up fa-1x"></i></a>
-                                    <strong id="unlikeText">Liked</strong>
-                                </div>
-                                <div id="likeDiv">
-                                    <a class="btn btn-light" id="like" onclick="toggleVisibility('likeDiv','unlikeDiv');"><i class="far fa-thumbs-up fa-1x"></i></a>
-                                    <strong id="likeText">Like</strong>
-                                </div>
-                                <div>
-                                    <a class="btn btn-light" target="commentFrame" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas"><i class="fas fa-comments fa-1x"></i></a>
-                                    <strong>Discuss</strong>
-                                </div>
-                            </div>
+<body class="d-flex flex-column py-5" onload="loadLike();">
+<script>
+var likeCounts = [[${likeCount}]];
+var like = [[${isLiked}]];
+function loadLike() {
+    if (isNotAuthorized()) {
+        return;
+    }
+    if (like) {
+        toggleVisibility('likeDiv', 'unlikeDiv');
+    } else {
+        toggleVisibility('unlikeDiv', 'likeDiv');
+    }
+}
+function userLike() {
+    if (isNotAuthorized()) {
+        return;
+    }
+    if (like) {
+        hide('unlikeDiv');
+        show('likeDiv');
+        like = false;
+        likeCounts--;
+        document.getElementById('likeCountText').innerHTML = likeCounts;
+    } else {
+        hide('likeDiv');
+        show('unlikeDiv');
+        like = true;
+        likeCounts++;
+        document.getElementById('unlikeCountText').innerHTML = likeCounts;
+    }
+}
+</script>
+<main class="flex-shrink-0">
+    <!-- Page Content-->
+    <section class="py-2">
+        <div class="container px-2 my-2">
+            <div class="row gx-5">
+                <div class="col-lg-2">
+                    <div class="d-flex align-items-center mt-lg-5 mb-4">
+                        <img class="img-fluid rounded-circle" loading="lazy" height="50" width="50" src="https://drive.google.com/uc?id=1AHs6MPC4bbJuad7IV1f2pNf29r5VaS8k" alt="..." />
+                        <div class="ms-3">
+                            <div class="fw-bold" th:text="${blog.userProfile.firstName}+' '+${blog.userProfile.lastName}">Valerie Luna</div>
+                            <div class="text-muted">SDE-II, Paypal</div>
                         </div>
-                        <div class="col-lg-2">
-                            <div class="d-flex align-items-center mt-lg-5 mb-4">
-                                <img class="img-fluid rounded-circle" loading="lazy" height="50" width="50" src="https://drive.google.com/uc?id=1AHs6MPC4bbJuad7IV1f2pNf29r5VaS8k" alt="..." />
-                                <div class="ms-3">
-                                    <div class="fw-bold" th:text="${blog.userProfile.firstName}+' '+${blog.userProfile.lastName}">Valerie Luna</div>
-                                    <div class="text-muted">SDE-II, Paypal</div>
-                                </div>
+                    </div>
+                    <div class="text-center border-bottom pb-3 pt-lg-5">
+                        <span class="font-monospace fw-bold fs-5 my-5" th:text="${course.name}"></span>
+                    </div>
+                    <div class="list-group list-group-flush border-bottom scrollarea">
+                        <a th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:each="b,itr : ${blogs}"
+                           th:class="'rounded list-group-item list-group-item-action py-3 lh-tight '+${b.id==blog.id ? 'active' : ''}" aria-current="true">
+                            <div class="text-center">
+                                <span class="fs-6 fw-semibold" th:text="'Chapter - '+${itr.index+1}"></span>
                             </div>
-                            <a href="#" class="d-flex align-items-start flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-                                <strong class="fs-5 mt-5" th:text="${course.name}"></strong>
+                        </a>
+                    </div>
+                    <div class="vstack gap-1 pt-5 ps-1">
+                        <div id="unlikeDiv" sec:authorize="isAuthenticated()">
+                            <a class="btn btn-dark position-relative" id="unlikeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
+                                <i class="fas fa-thumbs-up fa-1x"></i> Liked it!
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="unlikeCountText"  th:text="${likeCount}">
+                           <span class="visually-hidden">unread messages</span>
+                           </span>
                             </a>
-                            <div class="list-group list-group-flush border-bottom scrollarea">
-                                <a th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:each="b : ${blogs}"
-                                   th:class="'rounded list-group-item list-group-item-action py-3 lh-tight '+${b.id==blog.id ? 'active' : ''}" aria-current="true">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span class="fs-6 fw-semibold" th:text="${b.title}"></span>
-                                    </div>
-                                </a>
-                            </div>
                         </div>
-                        <div class="col-lg-9 mt-5">
-                            <!-- Post content-->
-                            <article>
-                                <!-- Post header-->
-                                <header class="mb-4">
-                                    <!-- Post title-->
-                                    <h1 class="fw-bolder mb-1" th:text="${blog.title}"></h1>
-                                    <!-- Post meta content-->
-                                    <div class="text-muted fst-italic mb-2" th:text="${#dates.format(new java.util.Date(blog.post_time),'dd-MMM-yyyy')}">January 1, 2021</div>
-                                    <!-- Post categories-->
-                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-                                    <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
-                                </header>
-                                <section class="mb-5">
-                                    [(${blog.body})]
-                                </section>
-                            </article>
-                            <div>
-                                <div class="offcanvas offcanvas-end rounded" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-                                    <div class="offcanvas-header">
-                                        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Comments</h5>
-                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                    </div>
-                                    <div class="offcanvas-body">
-                                        <!-- Comments section-->
-                                        <div>
-                                            <iframe th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" style="width:100%;" onload="this.height=this.contentWindow.document.body.scrollHeight;"></iframe>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="btn btn-dark" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fas fa-comments"></i> Discuss Here</a>
-                                <span sec:authorize="!isAuthenticated()">
-                            <!-- Button trigger modal -->
-                            <a href="/login" sec:authorize="!isAuthenticated()" class="btn btn-dark my-2 mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Login to comment">
-                                Login
+                        <div id="likeDiv" sec:authorize="isAuthenticated()">
+                            <a class="btn btn-dark position-relative" id="likeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
+                                <i class="far fa-thumbs-up fa-1x"></i> Hit Like
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="likeCountText"  th:text="${likeCount}">
+                           <span class="visually-hidden">unread messages</span>
+                           </span>
                             </a>
-                            <strong>to discuss in the comments.</strong>
-                        </span>
-                            </div>
+                        </div>
+                        <div sec:authorize="!isAuthenticated()" class="my-3">
+                            <a class="btn btn-dark position-relative" href="#login">
+                                <i class="far fa-thumbs-up fa-1x"></i> Hit Like
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> Login Required
+                           <span class="visually-hidden">unread messages</span>
+                           </span>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="btn btn-dark position-relative" target="commentFrame" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas">
+                                <i class="fas fa-comments fa-1x"></i> Discuss
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" sec:authorize="!isAuthenticated()"> Login Required
+                           <span class="visually-hidden">unread messages</span>
+                           </span>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </section>
-        </main>
-        <!-- Footer-->
-        <footer th:replace="fragments/footer :: footer"></footer>
-    </body>
+                <div class="col-lg-10 mt-5">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <h1 class="fw-bolder mb-1" th:text="${blog.title}"></h1>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2" th:text="${#dates.format(new java.util.Date(blog.post_time),'dd-MMM-yyyy')}">January 1, 2021</div>
+                            <!-- Post categories-->
+                            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+                            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+                        </header>
+                        <section class="mb-5">
+                            [(${blog.body})]
+                        </section>
+                    </article>
+                    <div>
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="comment-offcanvas" aria-labelledby="comment-offcanvasLabel">
+                            <!--    <div class="offcanvas-header">
+                               <small class="offcanvas-title" id="comment-offcanvasLabel">Discuss Here!</small>
+                               <a href="/login" class="stretched-link" sec:authorize="!isAuthenticated()"> Login </a>
+                               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                               </div> -->
+                            <div class="offcanvas-body" style="overflow-y: visible;">
+                                <!-- Comments section-->
+                                <iframe width="100%" height="100%"  th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" name="commentFrame" style="overflow-y: visible;"></iframe>
+                            </div>
+                        </div>
+                        <a class="btn btn-dark" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas"><i class="fas fa-comments"></i> Discuss Here</a>
+                        <span sec:authorize="!isAuthenticated()" id="isNotAuthorized">
+                           <!-- Button trigger modal -->
+                           <a href="/login" id="login" sec:authorize="!isAuthenticated()" class="btn btn-dark my-2 mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Login to comment">
+                           Login
+                           </a>
+                           <strong>to discuss in the comments.</strong>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- Footer-->
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
 </html>

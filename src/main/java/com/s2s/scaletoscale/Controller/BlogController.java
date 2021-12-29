@@ -73,11 +73,12 @@ public class BlogController {
         }
         return "admin/edit-blog";
     }
-
-    @GetMapping("/{blogId}")
+    @Secured({"ROLE_STUDENT","ROLE_ADMIN","ROLE_SUPER_ADMIN"})
+    @GetMapping("/like/{blogId}")
     public String toggleUserLike(@PathVariable("blogId") int blogId, Model model){
         Optional<com.s2s.scaletoscale.models.response.Blog> blog = blogService.getBlog(blogId);
         if (blog.isPresent()) {
+            userLikeService.toggleUserLike(blogId);
             com.s2s.scaletoscale.models.response.Blog blogResponse = blog.get();
             model.addAttribute("blog", blogResponse);
             model.addAttribute("isLiked",userLikeService.getUserLike(blogId));
@@ -89,12 +90,10 @@ public class BlogController {
         return "user/blog-post";
     }
 
-    @Secured({"ROLE_STUDENT","ROLE_ADMIN","ROLE_SUPER_ADMIN"})
-    @GetMapping("/like/{blogId}")
+    @GetMapping("/{blogId}")
     public String getBlog(@PathVariable("blogId") int blogId, Model model){
         Optional<com.s2s.scaletoscale.models.response.Blog> blog = blogService.getBlog(blogId);
         if (blog.isPresent()) {
-            userLikeService.toggleUserLike(blogId);
             com.s2s.scaletoscale.models.response.Blog blogResponse = blog.get();
             model.addAttribute("blog", blogResponse);
             model.addAttribute("isLiked",userLikeService.getUserLike(blogId));

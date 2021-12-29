@@ -4,6 +4,7 @@ import com.s2s.scaletoscale.models.response.Blog;
 import com.s2s.scaletoscale.models.response.Course;
 import com.s2s.scaletoscale.service.BlogService;
 import com.s2s.scaletoscale.service.CourseService;
+import com.s2s.scaletoscale.service.UserLikeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ public class CourseController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private UserLikeService userLikeService;
+
     @GetMapping("/{name}")
     public String getCourse(@RequestParam(name = "id",required = true) int id, Model model){
         Course course =  courseService.getCourseById(id);
@@ -35,6 +39,21 @@ public class CourseController {
         model.addAttribute("course",course);
         model.addAttribute("blogs",blogs);
         model.addAttribute("blog",blogs.get(0));
+        model.addAttribute("isLiked",userLikeService.getUserLike(blogs.get(0).getId()));
+        model.addAttribute("likeCount",userLikeService.getTotalLikes(blogs.get(0).getId()));
+        return "user/course-blog-post";
+    }
+
+    @GetMapping("/chapter")
+    public String getCourseChapter(@RequestParam(value = "courseId",required = false) int courseId,@RequestParam(value = "chapterId",required = false) int chapterId,  Model model){
+        Course course =  courseService.getCourseById(courseId);
+        List<Blog> blogs = course.getBlogs();
+        Blog blog = blogs.stream().filter(blog1 -> blog1.getId()==chapterId).collect(Collectors.toList()).get(0);
+        model.addAttribute("course",course);
+        model.addAttribute("blogs",blogs);
+        model.addAttribute("blog",blog);
+        model.addAttribute("isLiked",userLikeService.getUserLike(blog.getId()));
+        model.addAttribute("likeCount",userLikeService.getTotalLikes(blog.getId()));
         return "user/course-blog-post";
     }
 
@@ -56,17 +75,6 @@ public class CourseController {
         model.addAttribute("course",courseResponse);
         model.addAttribute("blogs",blogs);
         return "admin/create-course";
-    }
-
-    @GetMapping("/chapter")
-    public String getCourseChapter(@RequestParam(value = "courseId",required = false) int courseId,@RequestParam(value = "chapterId",required = false) int chapterId,  Model model){
-        Course course =  courseService.getCourseById(courseId);
-        List<Blog> blogs = course.getBlogs();
-        Blog blog = blogs.stream().filter(blog1 -> blog1.getId()==chapterId).collect(Collectors.toList()).get(0);
-        model.addAttribute("course",course);
-        model.addAttribute("blogs",blogs);
-        model.addAttribute("blog",blog);
-        return "user/course-blog-post";
     }
 
     @GetMapping("/create")

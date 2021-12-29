@@ -47,7 +47,7 @@
           </li>
         </ul>
         <div class="text-end" sec:authorize="!isAuthenticated()">
-          <a href="/login" type="button" class="mt-2 btn btn-dark me-2 btn-sm fw-bold"><i class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="/login" type="button" class="mt-2 btn btn-dark me-2 btn-sm fw-bold" id="login"><i class="fas fa-sign-in-alt"></i> Login</a>
           <a href="/signup" type="button" class="mt-2 btn btn-dark me-2 btn-sm fw-bold"><i class="fas fa-user-plus"></i> Sign-up</a>
         </div>
         <div class="text-end dropcenter" sec:authorize="isAuthenticated()">

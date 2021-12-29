@@ -2,7 +2,7 @@ i = 60;
 function onTimer(timerId,btnId) {
     var otpBtnTimer = document.getElementById(timerId);
     var otpBtn = document.getElementById(btnId);
-    otpBtnTimer.innerHTML = 'OTP sent to your mail, you can resend OTP in <strong>' +i+ '</strong> seconds';
+    otpBtnTimer.innerHTML = 'OTP sent to your mail, please use that OTP to verify your mail id. You can resend OTP in <strong>' +i+ '</strong> seconds';
     i--;
   if (i < 0) {
     otpBtn.style.display = "block";
