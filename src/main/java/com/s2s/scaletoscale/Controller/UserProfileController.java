@@ -24,23 +24,10 @@ public class UserProfileController {
 
     @Autowired
     private OtpService otpService;
+    
     @Autowired
     private ModelMapper modelMapper;
-    private static final Map<String, String> SIGNUP_ATTRIBUTE = new HashMap<>();
-    private static final Map<String, String> LOGIN_ATTRIBUTE = new HashMap<>();
-
-    @PostConstruct
-    void init() {
-        SIGNUP_ATTRIBUTE.put("id1", "signupForm");
-        SIGNUP_ATTRIBUTE.put("id2", "loginForm");
-        SIGNUP_ATTRIBUTE.put("id3", "btn2");
-        SIGNUP_ATTRIBUTE.put("id4", "btn1");
-        LOGIN_ATTRIBUTE.put("id1", "loginForm");
-        LOGIN_ATTRIBUTE.put("id2", "signupForm");
-        LOGIN_ATTRIBUTE.put("id3", "btn1");
-        LOGIN_ATTRIBUTE.put("id4", "btn2");
-    }
-
+    
     @Autowired
     private SecurityUtils securityUtils;
 
@@ -52,29 +39,35 @@ public class UserProfileController {
     public String signUpPage(@ModelAttribute("user") UserProfile user, Model model) {
         if (securityUtils.isUserLoggedIn())
             return "redirect:/";
-
-        model.addAllAttributes(SIGNUP_ATTRIBUTE);
         return "user/signup";
     }
 
+    @GetMapping("/login")
+    public String loginPage(@ModelAttribute("user") UserProfile user, Model model) {
+        if (securityUtils.isUserLoggedIn())
+            return "redirect:/";
+        return "user/login";
+    }
+    
+    
+    
     @PostMapping("/signup")
     public String signup(@ModelAttribute("user") UserProfile user, Model model) {
         try {
             if (!user.getPassword().equals(user.getConfirmPassword())) {
                 model.addAttribute("user", user);
-                SIGNUP_ATTRIBUTE.put("msg", "Password and Confirm Password is different.");
+                model.addAttribute("msg", "Password and Confirm Password is different.");
             } else {
                 userProfileService.saveUserProfile(user);
-                SIGNUP_ATTRIBUTE.put("msg", "Profile Saved. You can login now.");
+                model.addAttribute("msg", "Profile Saved. You can login now.");
             }
         } catch (UsernameNotAvailableException e) {
             model.addAttribute("user", user);
-            SIGNUP_ATTRIBUTE.put("msg", user.getEmail() + " not available.");
+            model.addAttribute("msg", user.getEmail() + " not available.");
         } catch (Exception e) {
             model.addAttribute("user", user);
-            SIGNUP_ATTRIBUTE.put("msg", "Something went wrong, try again");
+            model.addAttribute("msg", "Something went wrong, try again");
         }
-        model.addAllAttributes(SIGNUP_ATTRIBUTE);
         return "user/signup";
     }
 
@@ -84,29 +77,19 @@ public class UserProfileController {
             if (!user.getPassword().equals(user.getConfirmPassword())) {
                 model.addAttribute("user", user);
                 model.addAttribute("msgType", false);
-                SIGNUP_ATTRIBUTE.put("msg", "Password and Confirm Password is different.");
+                model.addAttribute("msg", "Password and Confirm Password is different.");
             } else {
                 userProfileService.updateUserProfile(user);
                 model.addAttribute("msgType", true);
-                SIGNUP_ATTRIBUTE.put("msg", "Profile Updated. You can login now.");
+                model.addAttribute("msg", "Profile Updated. You can login now.");
             }
         } catch (Exception e) {
             model.addAttribute("user", user);
-            SIGNUP_ATTRIBUTE.put("msg", "Something went wrong, try again");
+            model.addAttribute("msg", "Something went wrong, try again");
             System.out.println(e);
         }
-        model.addAllAttributes(SIGNUP_ATTRIBUTE);
         return "user/update-user-profile";
     }
-
-    @GetMapping("/login")
-    public String login(@ModelAttribute("user") UserProfile user, Model model) {
-        if (securityUtils.isUserLoggedIn())
-            return "redirect:/";
-        model.addAllAttributes(LOGIN_ATTRIBUTE);
-        return "user/signup";
-    }
-
 
     @GetMapping("/update/user")
     public String updateProfilePage(@ModelAttribute("user") UserProfile user, Model model) {
@@ -117,7 +100,6 @@ public class UserProfileController {
 
     @PostMapping("/user/pass")
     public String changePassword(@ModelAttribute("user") UserProfileResetDto user, Model model) {
-        model.addAllAttributes(LOGIN_ATTRIBUTE);
         try {
             com.s2s.scaletoscale.models.response.UserProfile userProfileRes = userProfileService.getUserProfile(user.getFpEmail());
             if (!isNotValidResetReq(user, userProfileRes, model)) {
@@ -128,10 +110,10 @@ public class UserProfileController {
                 model.addAttribute("msg", "New Password Updated. You can login now.");
             }
         } catch (Exception e) {
-            LOGIN_ATTRIBUTE.put("msg", "Something went wrong, try again");
+            model.addAttribute("msg", "Something went wrong, try again");
         }
         model.addAttribute("user", new com.s2s.scaletoscale.models.response.UserProfile());
-        return "user/signup";
+        return "user/login";
     }
 
     private boolean isNotValidResetReq(UserProfileResetDto user, com.s2s.scaletoscale.models.response.UserProfile userProfileRes, Model model) throws ExecutionException {

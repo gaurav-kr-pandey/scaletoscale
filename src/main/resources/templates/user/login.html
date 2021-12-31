@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header"></head>
+<body th:data-id1="${id1}" th:data-id2="${id2}" th:data-id3="${id3}" th:data-id4="${id4}" onload="f1(); save();"
+      th:background="@{/images/login-bg.jpg}"
+    style="background-size: cover; background-repeat: no-repeat; background-position: center center;">
+<script th:src="@{/js/signup.js}"></script>
+<div class="container py-5">
+    <div class="btn-group py-5" role="group" aria-label="Basic example">
+        <a type="button" class="btn btn-lg btn-light" id="btn1" href="/signup">Sign up </a>
+        <a type="button" class="btn btn-lg btn-dark" id="btn2" href="/login">Login</a>
+    </div>
+        <div class="shadow p-3 mb-5 bg-body rounded mt-4 col-6 mx-auto" id="loginForm">
+            <!-- Login Form -->
+            <div class="mx-4 my-4">
+                <div>
+                    <h1 align="center">Login</h1>
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-6 d-flex flex-nowrap" align="center">
+                            Invalid username and password.
+                        </div>
+                    </div>
+                    <div th:if="${param.logout}">
+                        <div class="alert alert-success col-xs-offset-1 col-xs-6 d-flex flex-nowrap" align="center">
+                            You have been logged out.
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div th:if="${msg != null && msg != ''}">
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10 d-flex flex-nowrap" th:text="${msg}"
+                             align="center"></div>
+                    </div>
+                </div>
+                <form th:action="@{/authenticate}" method="POST">
+                    <div class="mb-3">
+                        <label for="user" class="form-label">Email address</label>
+                        <input id="user" type="email" name="username" class="form-control"
+                               placeholder="username@gmail.com" aria-label="Email">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="passwordLogin" class="form-label">Password</label>
+                        <input id="passwordLogin" type="password" name="password" class="form-control"
+                               placeholder="Password" aria-label="Password">
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-sm">Login</button>
+                    <a href="/signup" class="btn btn-light btn-sm mx-1">Sign up</a>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                        Forgot Password
+                    </button>
+                </form>
+            </div>
+        </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" th:action="@{/user/pass}" method="POST">
+                    <div class="col-md-6">
+                        <label for="fpEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="fpEmail" id="fpEmail" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fpOtp" class="form-label">
+                            Verify Email
+                            <a class="badge rounded-pill bg-dark text-decoration-none" id="fpSendOtp" onclick="sendOtp('fpEmail','fpOtpTimer','fpSendOtp');"> Send OTP</a>
+                        </label>
+                        <input type="text" class="form-control" name="otp" id="fpOtp" placeholder="Enter OTP" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fpPassword" class="form-label">New Password</label>
+                        <input type="text" class="form-control" name="newPassword" id="fpPassword" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fpConfirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" name="confirmNewPassword" id="fpConfirmPassword"
+                               required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div for="fpOtp" class="fw-bold text-center" id="fpOtpTimer" style="font-size: inherit;"></div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer th:replace="fragments/footer :: footer"></footer>
+</html>
