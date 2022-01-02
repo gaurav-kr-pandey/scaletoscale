@@ -2,6 +2,15 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header"></head>
 <body class="d-flex flex-column" onload="loadLike();">
+<style>
+div.custom-fixed {
+  position:fixed;
+  width:200px;
+  height:200px;
+  left:10px;
+  top:50%;
+}
+</style>
 <script>
 var likeCounts = [[${likeCount}]];
 var like = [[${isLiked}]];
@@ -42,12 +51,12 @@ function userLike() {
                 <div class="col-lg-2">
                     <div class="d-flex align-items-center mt-lg-5 mb-4">
                         <img class="img-fluid rounded-circle" loading="lazy" height="50" width="50" src="https://drive.google.com/uc?id=1AHs6MPC4bbJuad7IV1f2pNf29r5VaS8k" alt="..." />
-                        <div class="ms-3">
+                        <div class="ms-1">
                             <div class="fw-bold" th:text="${blog.userProfile.firstName}+' '+${blog.userProfile.lastName}">Valerie Luna</div>
                             <div class="text-muted">SDE-II, Paypal</div>
                         </div>
                     </div>
-                    <div class="vstack gap-1 pt-5 ps-1">
+                    <div class="vstack gap-1 pt-5 ps-1 custom-fixed">
                         <div id="unlikeDiv" sec:authorize="isAuthenticated()">
                             <a class="btn btn-dark position-relative" id="unlikeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
                                 <i class="fas fa-thumbs-up fa-1x"></i> Liked it!

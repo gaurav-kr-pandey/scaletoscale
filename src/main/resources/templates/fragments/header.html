@@ -5,42 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Scale To Scale</title>
     <style>
-
-    /* width */
-::-webkit-scrollbar {
-  width: 5px;
+#custom-fixed {
+  position:fixed;
+  width:100px;
+  height:100px;
+  background:red;
+  left:10px;
+  top:100px;
 }
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px white;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: black;
-  border-radius: 10px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #b30000;
-}
-
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
     </style>
     <!-- Custom styles for this template -->
     <link th:href="@{/css/headers.css}" rel="stylesheet">

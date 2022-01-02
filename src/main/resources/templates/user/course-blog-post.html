@@ -2,6 +2,57 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header"></head>
 <body class="d-flex flex-column py-5" onload="loadLike();">
+<style>
+/* Style for dropdown button */
+.dropbtn {
+  background-color: #171717;
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Style for dropdown content */
+.dropdown-content {
+  border-radius: 3px;
+  display: none; /* Hidden by default */
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 85px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Style for each content div */
+.dropdown-content div {
+  padding: 10px 5px;
+}
+
+/* Highlight dropdown options on hover */
+.dropdown-content div:hover {
+  background-color: #eaeaea;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Highlight dropdown button when dropdown menu is open */
+.dropdown:hover .dropbtn {
+  background-color: #474885;
+}
+
+div.custom-fixed {
+  position:fixed;
+  width:200px;
+  height:200px;
+  left:10px;
+  top:25%;
+}
+</style>
 <script>
 var likeCounts = [[${likeCount}]];
 var like = [[${isLiked}]];
@@ -47,18 +98,13 @@ function userLike() {
                             <div class="text-muted">SDE-II, Paypal</div>
                         </div>
                     </div>
-                    <div class="text-center border-bottom pb-3 pt-lg-5">
-                        <span class="font-monospace fw-bold fs-5 my-5" th:text="${course.name}"></span>
-                    </div>
-                    <div class="list-group list-group-flush border-bottom scrollarea">
-                        <a th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:each="b,itr : ${blogs}"
-                           th:class="'rounded list-group-item list-group-item-action py-3 lh-tight '+${b.id==blog.id ? 'active' : ''}" aria-current="true">
-                            <div class="text-center">
-                                <span class="fs-6 fw-semibold" th:text="'Chapter - '+${itr.index+1}"></span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="vstack gap-1 pt-5 ps-1">
+                    <div class="vstack gap-3 pt-5 ps-1 custom-fixed">
+                        <span class="dropdown">
+                          <button class="dropbtn"> <i class="fas fa-book-open"></i> Chapters</button>
+                          <div class="dropdown-content">
+                                <div th:each="b,itr : ${blogs}"><a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:text="${itr.index+1}+'. '+${b.title}"></a></div>
+                          </div>
+                        </span>
                         <div id="unlikeDiv" sec:authorize="isAuthenticated()">
                             <a class="btn btn-dark position-relative" id="unlikeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
                                 <i class="fas fa-thumbs-up fa-1x"></i> Liked it!
@@ -85,7 +131,7 @@ function userLike() {
                         </div>
                         <div>
                             <a class="btn btn-dark position-relative" target="commentFrame" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas">
-                                <i class="fas fa-comments fa-1x"></i> Discuss
+                                <i class="fas fa-comments fa-1x"></i> Comment
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" sec:authorize="!isAuthenticated()"> Login Required
                            <span class="visually-hidden">unread messages</span>
                            </span>
@@ -96,6 +142,12 @@ function userLike() {
                 <div class="col-lg-10 mt-5">
                     <!-- Post content-->
                     <article>
+                        <!--
+                        <div class="jumbotron">
+                            <h1 class="display-1" th:text="${course.name}"></h1>
+                            <hr class="my-4">
+                            <p class="lead" th:text="${blog.description}"></p>
+                        </div> -->
                         <!-- Post header-->
                         <header class="mb-4">
                             <!-- Post title-->
