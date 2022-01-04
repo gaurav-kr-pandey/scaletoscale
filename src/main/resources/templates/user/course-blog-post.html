@@ -3,6 +3,7 @@
 <head th:replace="fragments/header :: header"></head>
 <body class="d-flex flex-column py-5">
 <link rel="stylesheet" th:href="@{/css/blog-post.css}" />
+<link th:href="@{/css/scroll-bar.css}" rel="stylesheet" />
 <script>
 var likeCounts = [[${likeCount}]];
 var like = [[${isLiked}]];
@@ -22,6 +23,12 @@ function userLike() {
         likeBtnEle.innerHTML = "<i class=\"fas fa-thumbs-up fa-1x\" id=\"unlikeLogo\"></i> Liked it! <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
     }
 }
+function showDismiss(){
+    show('dismissBtn');
+}
+function hideDismiss(){
+    show('dismissBtn');
+}
 </script>
 <main class="flex-shrink-0">
     <!-- Page Content-->
@@ -40,6 +47,16 @@ function userLike() {
                         <span class="dropdown">
                           <button class="dropbtn"> <i class="fas fa-book-open"></i> Chapters</button>
                           <div class="dropdown-content">
+                              <div th:each="b,itr : ${blogs}">
+                                  <a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}">
+                                      <span style="display: block;" th:text="${itr.index+1}+'. '+${b.title}"></span>
+                                  </a>
+                              </div>
+                              <div th:each="b,itr : ${blogs}">
+                                  <a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}">
+                                      <span style="display: block;" th:text="${itr.index+1}+'. '+${b.title}"></span>
+                                  </a>
+                              </div>
                               <div th:each="b,itr : ${blogs}">
                                   <a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}">
                                       <span style="display: block;" th:text="${itr.index+1}+'. '+${b.title}"></span>
@@ -75,8 +92,8 @@ function userLike() {
                             <a class="btn btn-dark position-relative" target="commentFrame" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas">
                                 <i class="fas fa-comments fa-1x"></i> Comment
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" sec:authorize="!isAuthenticated()"> Login Required
-                           <span class="visually-hidden">unread messages</span>
-                           </span>
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
                             </a>
                         </div>
                     </div>
@@ -105,11 +122,7 @@ function userLike() {
                         </section>
                     </article>
                     <div>
-                        <div class="offcanvas offcanvas-end" tabindex="-1" id="comment-offcanvas" aria-labelledby="comment-offcanvasLabel">
-                            <div class="offcanvas-header">
-                               <small class="offcanvas-title" id="comment-offcanvasLabel">Close Comment Box</small>
-                               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                            </div>
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="comment-offcanvas" aria-labelledby="comment-offcanvasLabel" data-bs-scroll="true" data-bs-backdrop="true" data-bs-keyboard="true">
                             <div class="offcanvas-body" style="overflow-y: visible;">
                                 <!-- Comments section-->
                                 <iframe width="100%" height="100%"  th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" name="commentFrame" style="overflow-y: visible;"></iframe>
@@ -118,11 +131,9 @@ function userLike() {
                         <a class="btn btn-dark" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas"><i class="fas fa-comments"></i> Discuss Here</a>
                         <span sec:authorize="!isAuthenticated()" id="isNotAuthorized">
                            <!-- Button trigger modal -->
-                           <a href="/login" id="login" sec:authorize="!isAuthenticated()" class="btn btn-dark my-2 mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Login to comment">
-                           Login
-                           </a>
+                           <a href="/login" id="login" sec:authorize="!isAuthenticated()" class="btn btn-dark my-2 mx-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Login to comment"> Login </a>
                            <strong>to discuss in the comments.</strong>
-                        </span>
+                    </span>
                     </div>
                 </div>
             </div>

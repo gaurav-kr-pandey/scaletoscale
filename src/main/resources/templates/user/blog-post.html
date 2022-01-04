@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header"></head>
-<body class="d-flex flex-column" onload="loadLike();">
+<body class="d-flex flex-column">
+<link rel="stylesheet" th:href="@{/css/blog-post.css}" />
 <style>
 div.custom-fixed {
   position:fixed;
@@ -71,7 +72,7 @@ function userLike() {
                         </div>
                         <div>
                             <a class="btn btn-dark position-relative" target="commentFrame" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas">
-                                <i class="fas fa-comments fa-1x"></i> Discuss
+                                <i class="fas fa-comments fa-1x"></i> Comments
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" sec:authorize="!isAuthenticated()"> Login Required
                            <span class="visually-hidden">unread messages</span>
                            </span>
@@ -102,7 +103,7 @@ function userLike() {
                         </div>
                     </article>
                     <div>
-                        <div class="offcanvas offcanvas-end" tabindex="-1" id="comment-offcanvas" aria-labelledby="comment-offcanvasLabel">
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="comment-offcanvas" aria-labelledby="comment-offcanvasLabel" data-bs-scroll="true" data-bs-backdrop="true" data-bs-keyboard="true">
                             <!--    <div class="offcanvas-header">
                                <small class="offcanvas-title" id="comment-offcanvasLabel">Discuss Here!</small>
                                <a href="/login" class="stretched-link" sec:authorize="!isAuthenticated()"> Login </a>
