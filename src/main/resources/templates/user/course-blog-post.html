@@ -40,7 +40,11 @@ function userLike() {
                         <span class="dropdown">
                           <button class="dropbtn"> <i class="fas fa-book-open"></i> Chapters</button>
                           <div class="dropdown-content">
-                                <div th:each="b,itr : ${blogs}"><a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:text="${itr.index+1}+'. '+${b.title}"></a></div>
+                              <div th:each="b,itr : ${blogs}">
+                                  <a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}">
+                                      <span style="display: block;" th:text="${itr.index+1}+'. '+${b.title}"></span>
+                                  </a>
+                              </div>
                           </div>
                         </span>
                         <div id="unlikeDiv" th:if="${isLiked}" sec:authorize="isAuthenticated()">
@@ -102,11 +106,10 @@ function userLike() {
                     </article>
                     <div>
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="comment-offcanvas" aria-labelledby="comment-offcanvasLabel">
-                            <!--    <div class="offcanvas-header">
-                               <small class="offcanvas-title" id="comment-offcanvasLabel">Discuss Here!</small>
-                               <a href="/login" class="stretched-link" sec:authorize="!isAuthenticated()"> Login </a>
+                            <div class="offcanvas-header">
+                               <small class="offcanvas-title" id="comment-offcanvasLabel">Close Comment Box</small>
                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                               </div> -->
+                            </div>
                             <div class="offcanvas-body" style="overflow-y: visible;">
                                 <!-- Comments section-->
                                 <iframe width="100%" height="100%"  th:src="@{/comment}+'?blogId='+${blog.id}+'&offset=0'" name="commentFrame" style="overflow-y: visible;"></iframe>
