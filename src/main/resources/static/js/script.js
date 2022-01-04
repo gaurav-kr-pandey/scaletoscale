@@ -26,3 +26,20 @@ function isNotAuthorized(){
     }
     return false;
 }
+
+function addClass(id,name){
+    document.getElementById(id).classList.add(name);
+}
+
+function removeClass(id,name){
+    document.getElementById(id).classList.remove(name);
+}
+
+function toggleClass(id,replace,replaceWith){
+    document.getElementById(id).classList.remove(replace);
+    document.getElementById(id).classList.add(replaceWith);
+}
+
+function replaceClass(id,name){
+    document.getElementById(id).className = name;
+}

@@ -14,32 +14,20 @@ div.custom-fixed {
 <script>
 var likeCounts = [[${likeCount}]];
 var like = [[${isLiked}]];
-function loadLike() {
-    if (isNotAuthorized()) {
-        return;
-    }
-    if (like) {
-        toggleVisibility('likeDiv', 'unlikeDiv');
-    } else {
-        toggleVisibility('unlikeDiv', 'likeDiv');
-    }
-}
+var isLikedFirstTimeValue = [[${isLiked}]];
 function userLike() {
     if (isNotAuthorized()) {
         return;
     }
+    var likeBtnEle = isLikedFirstTimeValue ? document.getElementById('unlikeBtn') : document.getElementById('likeBtn');
     if (like) {
-        hide('unlikeDiv');
-        show('likeDiv');
         like = false;
         likeCounts--;
-        document.getElementById('likeCountText').innerHTML = likeCounts;
+        likeBtnEle.innerHTML = "<i class=\"far fa-thumbs-up fa-1x\" id=\"unlikeLogo\"></i> Hit Like <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
     } else {
-        hide('likeDiv');
-        show('unlikeDiv');
         like = true;
         likeCounts++;
-        document.getElementById('unlikeCountText').innerHTML = likeCounts;
+        likeBtnEle.innerHTML = "<i class=\"fas fa-thumbs-up fa-1x\" id=\"unlikeLogo\"></i> Liked it! <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
     }
 }
 </script>
@@ -57,7 +45,7 @@ function userLike() {
                         </div>
                     </div>
                     <div class="vstack gap-1 pt-5 ps-1 custom-fixed">
-                        <div id="unlikeDiv" sec:authorize="isAuthenticated()">
+                        <div id="unlikeDiv" th:if="${isLiked}" sec:authorize="isAuthenticated()">
                             <a class="btn btn-dark position-relative" id="unlikeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
                                 <i class="fas fa-thumbs-up fa-1x"></i> Liked it!
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="unlikeCountText"  th:text="${likeCount}">
@@ -65,7 +53,7 @@ function userLike() {
                            </span>
                             </a>
                         </div>
-                        <div id="likeDiv" sec:authorize="isAuthenticated()">
+                        <div id="likeDiv" th:if="!${isLiked}" sec:authorize="isAuthenticated()">
                             <a class="btn btn-dark position-relative" id="likeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
                                 <i class="far fa-thumbs-up fa-1x"></i> Hit Like
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="likeCountText"  th:text="${likeCount}">

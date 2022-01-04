@@ -1,87 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header"></head>
-<body class="d-flex flex-column py-5" onload="loadLike();">
-<style>
-/* Style for dropdown button */
-.dropbtn {
-  background-color: #171717;
-  border-radius: 5px;
-  color: white;
-  padding: 10px;
-  font-size: 15px;
-  border: none;
-  cursor: pointer;
-}
-
-/* Style for dropdown content */
-.dropdown-content {
-  border-radius: 3px;
-  display: none; /* Hidden by default */
-  position: absolute;
-  background-color: #ffffff;
-  min-width: 85px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-/* Style for each content div */
-.dropdown-content div {
-  padding: 10px 5px;
-}
-
-/* Highlight dropdown options on hover */
-.dropdown-content div:hover {
-  background-color: #eaeaea;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* Highlight dropdown button when dropdown menu is open */
-.dropdown:hover .dropbtn {
-  background-color: #474885;
-}
-
-div.custom-fixed {
-  position:fixed;
-  width:200px;
-  height:200px;
-  left:10px;
-  top:25%;
-}
-</style>
+<body class="d-flex flex-column py-5">
+<link rel="stylesheet" th:href="@{/css/blog-post.css}" />
 <script>
 var likeCounts = [[${likeCount}]];
 var like = [[${isLiked}]];
-function loadLike() {
-    if (isNotAuthorized()) {
-        return;
-    }
-    if (like) {
-        toggleVisibility('likeDiv', 'unlikeDiv');
-    } else {
-        toggleVisibility('unlikeDiv', 'likeDiv');
-    }
-}
+var isLikedFirstTimeValue = [[${isLiked}]];
 function userLike() {
     if (isNotAuthorized()) {
         return;
     }
+    var likeBtnEle = isLikedFirstTimeValue ? document.getElementById('unlikeBtn') : document.getElementById('likeBtn');
     if (like) {
-        hide('unlikeDiv');
-        show('likeDiv');
         like = false;
         likeCounts--;
-        document.getElementById('likeCountText').innerHTML = likeCounts;
+        likeBtnEle.innerHTML = "<i class=\"far fa-thumbs-up fa-1x\" id=\"unlikeLogo\"></i> Hit Like <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
     } else {
-        hide('likeDiv');
-        show('unlikeDiv');
         like = true;
         likeCounts++;
-        document.getElementById('unlikeCountText').innerHTML = likeCounts;
+        likeBtnEle.innerHTML = "<i class=\"fas fa-thumbs-up fa-1x\" id=\"unlikeLogo\"></i> Liked it! <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
     }
 }
 </script>
@@ -105,28 +43,28 @@ function userLike() {
                                 <div th:each="b,itr : ${blogs}"><a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}" th:text="${itr.index+1}+'. '+${b.title}"></a></div>
                           </div>
                         </span>
-                        <div id="unlikeDiv" sec:authorize="isAuthenticated()">
+                        <div id="unlikeDiv" th:if="${isLiked}" sec:authorize="isAuthenticated()">
                             <a class="btn btn-dark position-relative" id="unlikeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
-                                <i class="fas fa-thumbs-up fa-1x"></i> Liked it!
+                                <i class="fas fa-thumbs-up fa-1x" id="unlikeLogo"></i> Liked it!
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="unlikeCountText"  th:text="${likeCount}">
-                           <span class="visually-hidden">unread messages</span>
-                           </span>
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
                             </a>
                         </div>
-                        <div id="likeDiv" sec:authorize="isAuthenticated()">
+                        <div id="likeDiv" th:if="!${isLiked}" sec:authorize="isAuthenticated()">
                             <a class="btn btn-dark position-relative" id="likeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
-                                <i class="far fa-thumbs-up fa-1x"></i> Hit Like
+                                <i class="far fa-thumbs-up fa-1x" id="likeLogo"></i> Hit Like
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="likeCountText"  th:text="${likeCount}">
-                           <span class="visually-hidden">unread messages</span>
-                           </span>
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
                             </a>
                         </div>
                         <div sec:authorize="!isAuthenticated()" class="my-3">
                             <a class="btn btn-dark position-relative" href="#login">
                                 <i class="far fa-thumbs-up fa-1x"></i> Hit Like
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> Login Required
-                           <span class="visually-hidden">unread messages</span>
-                           </span>
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
                             </a>
                         </div>
                         <div>
