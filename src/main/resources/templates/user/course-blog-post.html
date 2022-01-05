@@ -47,7 +47,8 @@ function hideDismiss(){
                         <span class="dropdown">
                           <button class="dropbtn"> <i class="fas fa-book-open fa-2x"></i></button>
                           <div class="dropdown-content">
-                              <div style="  font-weight: bold; text-align: center; color:white; background-color:black;">Chapters</div>
+                              <div class="chapter">Chapters</div>
+                              <div>Chapters</div>
                               <div th:each="b,itr : ${blogs}">
                                   <a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}">
                                       <span style="display: block;" th:text="${itr.index+1}+'. '+${b.title}"></span>

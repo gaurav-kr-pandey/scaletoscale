@@ -12,7 +12,7 @@
 /* Style for dropdown content */
 .dropdown-content {
   overflow: auto;
-  height: 220px;
+  height: 250px;
   border-radius: 3px;
   display: none; /* Hidden by default */
   position: absolute;
@@ -44,9 +44,19 @@
 
 /* Fixing buttons in the mid */
 div.custom-fixed {
-  position:fixed;
-  width:200px;
-  height:200px;
-  left:10px;
-  top:40%;
+    position: fixed;
+    width: auto;
+    left: 10px;
+    top: 40%;
+    height: auto;
+}
+
+/* Fix Chapters at the top of the list */
+div.chapter{
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    background-color: black;
+    position: fixed;
+    width: inherit;
 }
