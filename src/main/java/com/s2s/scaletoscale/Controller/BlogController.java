@@ -90,6 +90,22 @@ public class BlogController {
         return "user/blog-post";
     }
 
+    @Secured({"ROLE_STUDENT","ROLE_ADMIN","ROLE_SUPER_ADMIN"})
+    @GetMapping("/{blogId}/login")
+    public String loginRequiredForLikeAndComment(@PathVariable("blogId") int blogId, Model model){
+        Optional<com.s2s.scaletoscale.models.response.Blog> blog = blogService.getBlog(blogId);
+        if (blog.isPresent()) {
+            com.s2s.scaletoscale.models.response.Blog blogResponse = blog.get();
+            model.addAttribute("blog", blogResponse);
+            model.addAttribute("isLiked",userLikeService.getUserLike(blogId));
+            model.addAttribute("likeCount",userLikeService.getTotalLikes(blogId));
+        } else {
+            model.addAttribute("status", "Blog does not exists");
+            return "user/home";
+        }
+        return "user/blog-post";
+    }
+
     @GetMapping("/{blogId}")
     public String getBlog(@PathVariable("blogId") int blogId, Model model){
         Optional<com.s2s.scaletoscale.models.response.Blog> blog = blogService.getBlog(blogId);

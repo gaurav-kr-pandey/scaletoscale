@@ -16,11 +16,11 @@ function userLike() {
     if (like) {
         like = false;
         likeCounts--;
-        likeBtnEle.innerHTML = "<i class=\"far fa-thumbs-up fa-1x\" id=\"unlikeLogo\"></i> Hit Like <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
+        likeBtnEle.innerHTML = "<i class=\"far fa-thumbs-up fa-2x\" id=\"unlikeLogo\"></i> <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
     } else {
         like = true;
         likeCounts++;
-        likeBtnEle.innerHTML = "<i class=\"fas fa-thumbs-up fa-1x\" id=\"unlikeLogo\"></i> Liked it! <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
+        likeBtnEle.innerHTML = "<i class=\"fas fa-thumbs-up fa-2x\" id=\"unlikeLogo\"></i> <span class=\"position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger\" id=\"unlikeCountText\">"+likeCounts+" <span class=\"visually-hidden\">unread messages</span></span>";
     }
 }
 function showDismiss(){
@@ -45,8 +45,9 @@ function hideDismiss(){
                     </div>
                     <div class="vstack gap-3 pt-5 ps-1 custom-fixed">
                         <span class="dropdown">
-                          <button class="dropbtn"> <i class="fas fa-book-open"></i> Chapters</button>
+                          <button class="dropbtn"> <i class="fas fa-book-open fa-2x"></i></button>
                           <div class="dropdown-content">
+                              <div style="  font-weight: bold; text-align: center; color:white; background-color:black;">Chapters</div>
                               <div th:each="b,itr : ${blogs}">
                                   <a class="text-decoration-none" style="color: black;" th:href="@{/course/chapter?courseId=}+${course.id}+'&chapterId='+${b.id}">
                                       <span style="display: block;" th:text="${itr.index+1}+'. '+${b.title}"></span>
@@ -66,7 +67,7 @@ function hideDismiss(){
                         </span>
                         <div id="unlikeDiv" th:if="${isLiked}" sec:authorize="isAuthenticated()">
                             <a class="btn btn-dark position-relative" id="unlikeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
-                                <i class="fas fa-thumbs-up fa-1x" id="unlikeLogo"></i> Liked it!
+                                <i class="fas fa-thumbs-up fa-2x" id="unlikeLogo"></i>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="unlikeCountText"  th:text="${likeCount}">
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
@@ -74,24 +75,24 @@ function hideDismiss(){
                         </div>
                         <div id="likeDiv" th:if="!${isLiked}" sec:authorize="isAuthenticated()">
                             <a class="btn btn-dark position-relative" id="likeBtn" th:onclick="|asyncGetRequest('/blog/like/${blog.id}');userLike();|">
-                                <i class="far fa-thumbs-up fa-1x" id="likeLogo"></i> Hit Like
+                                <i class="far fa-thumbs-up fa-2x" id="likeLogo"></i>
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="likeCountText"  th:text="${likeCount}">
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                             </a>
                         </div>
                         <div sec:authorize="!isAuthenticated()" class="my-3">
-                            <a class="btn btn-dark position-relative" href="#login">
-                                <i class="far fa-thumbs-up fa-1x"></i> Hit Like
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"> Login Required
+                            <a class="btn btn-dark position-relative" th:href="@{/blog/}+${blog.id}+@{/login}">
+                                <i class="far fa-thumbs-up fa-2x"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                             </a>
                         </div>
                         <div>
                             <a class="btn btn-dark position-relative" target="commentFrame" data-bs-toggle="offcanvas" href="#comment-offcanvas" role="button" aria-controls="comment-offcanvas">
-                                <i class="fas fa-comments fa-1x"></i> Comment
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" sec:authorize="!isAuthenticated()"> Login Required
+                                <i class="fas fa-comments fa-2x"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" sec:authorize="!isAuthenticated()">
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                             </a>
