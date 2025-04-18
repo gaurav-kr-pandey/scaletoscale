@@ -14,7 +14,7 @@ spring:
     #host: smtp.gmail.com
     #port: 587
     #username: scaletoscale@gmail.com
-    #password: khuljaodude9648
+    #password: 
     #properties:
       #mail:
         #smtp:
