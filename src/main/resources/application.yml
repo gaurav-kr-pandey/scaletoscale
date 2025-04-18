@@ -23,7 +23,7 @@ spring:
             #enable: true
 
 user: scaletoscale@gmail.com
-pass: khuljaodude9648
+pass: <gmail-pass>
 domain: http://localhost:8080/
 
 email:
